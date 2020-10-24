@@ -1,20 +1,22 @@
-<head>
+<html>
     <head>
         <title>Home</title>
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+        <script src="auth.js"></script>
     </head>
-    <body>
+    <body onload=isLoggedIn()>
 
         <!--Navbar starts-->
         <navbar>
-            <button onclick="location.href='signIn.html';">SignIn</button>
-            <button onclick="location.href='signUp.html';">SignUp</button>
+            <button onclick="location.href='profile'+getUser()+'.html';">My Profile</button>
+            <button onclick=signOut() >Logout</button>
         </navbar>
         <!--Navbar ends-->
-
+        
         <div>
-            Welcome to Gossip Growl!
+            Hi, this is Gossip Ground!
         </div>
 
     </body>
-</head>
+</html>

@@ -1,4 +1,3 @@
-
   // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyDXQpmWx2Ic2Pj3rPxtm5FP8ekqIpDl4rU",
@@ -21,8 +20,12 @@ function signIn(){
     
     const promise = auth.signInWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
-    
-    alert("Signed In" + email);
+
+    auth.onAuthStateChanged(function(user){
+        if(user){
+            window.location.href = "home.html";   
+        }
+    });
 }
 
 function signUp(){
@@ -32,12 +35,29 @@ function signUp(){
     
     const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
-    
-    alert("Signed Up");
+
+    auth.onAuthStateChanged(function(user){
+        if(user){
+            window.location.href = "home.html";   
+        }
+    });
 }
 
-function signOut()
-{
+function signOut(){
+
     auth.signOut();
     alert("Signed Out");
+    window.location.href = "main.html";
+}
+
+function isLoggedIn(){
+    auth.onAuthStateChanged(function(user){
+        if(user==null){    
+            window.location.href = "main.html";
+        }
+    });
+}
+
+function getUser(){
+    return auth.currentUser;
 }
