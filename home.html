@@ -1,15 +1,18 @@
 <html>
     <head>
         <title>Home</title>
+          <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
         <script src="auth.js"></script>
+        <script src="profile.js"></script>
     </head>
     <body onload=isLoggedIn()>
 
         <!--Navbar starts-->
         <navbar>
-            <button onclick="location.href='profile'+getUser()+'.html';">My Profile</button>
+            <button onclick=getUserProfile()>My Profile</button>
             <button onclick=signOut() >Logout</button>
         </navbar>
         <!--Navbar ends-->

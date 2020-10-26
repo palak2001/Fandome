@@ -1,17 +1,20 @@
   // Your web app's Firebase configuration
   var firebaseConfig = {
-    apiKey: "AIzaSyDXQpmWx2Ic2Pj3rPxtm5FP8ekqIpDl4rU",
-    authDomain: "gossipgrowl-1ba6a.firebaseapp.com",
-    databaseURL: "https://gossipgrowl-1ba6a.firebaseio.com",
-    projectId: "gossipgrowl-1ba6a",
-    storageBucket: "gossipgrowl-1ba6a.appspot.com",
-    messagingSenderId: "508066823980",
-    appId: "1:508066823980:web:744d150627bffa77427689"
+    apiKey: "AIzaSyBx2BGtFt1KwtL0F-sYSoaJMXO8HcbAkxQ",
+    authDomain: "fandome.firebaseapp.com",
+    databaseURL: "https://fandome.firebaseio.com",
+    projectId: "fandome",
+    storageBucket: "fandome.appspot.com",
+    messagingSenderId: "511056563788",
+    appId: "1:511056563788:web:11b750a29b736b3b572ee9"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
-  const auth = firebase.auth();
+  // Get a reference to the database service
+    var database = firebase.database();
+
+    const auth = firebase.auth();
 
 function signIn(){
 		
@@ -29,7 +32,9 @@ function signIn(){
 }
 
 function signUp(){
-		
+    
+    var name = document.getElementById("name");
+    var username = document.getElementById("username");
     var email = document.getElementById("email");
     var password = document.getElementById("password");
     
@@ -38,6 +43,11 @@ function signUp(){
 
     auth.onAuthStateChanged(function(user){
         if(user){
+            database.ref('users/' + user.uid).set({
+                name: name.value,
+                username: username.value,
+                email: user.email
+              });
             window.location.href = "home.html";   
         }
     });
@@ -58,6 +68,7 @@ function isLoggedIn(){
     });
 }
 
-function getUser(){
-    return auth.currentUser;
+function getUserId(){
+    console.log(user.uid);
+    return user.uid;
 }
