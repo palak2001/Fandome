@@ -10,7 +10,7 @@ function getUserProfile()
         database.ref('users/'+ user.uid ).on('value',function(snapshot) {
             snapshot.forEach(function(_child){
                 console.log(_child.val());
-                l.push(_child.val);
+                l.push(_child.val());
             });
             email = l[0];
             name = l[1];
@@ -19,30 +19,48 @@ function getUserProfile()
     });
 }
 
-function getProfile()
+function getProfile(username)
 {
     var email;
     var name;
-    var l=[];
-    var username = document.getElementById("username");
-    //find uid from username
-    var uid = getUidFromUsername(username.value);
-    var ref = database.ref('users/'+ uid ).on('value',function(snapshot) {
-        snapshot.forEach(function(_child){
-            console.log(_child.val());
-            l.push(_child.val);
-        });
-        email = l[0];
-        name = l[1];
-        username = l[2];
-    });
+    firebase.database().ref("users").on('value', function(snap){
+        snap.forEach(function(child){
+            var l=[];
+            child.forEach(function(subChild){
+                l.push(subChild.val());
+            });
+            if(l[2]==username){
+                email = l[0];
+                name = l[1];
+           }
+       });
+     });
+    console.log(email);
+    console.log(name);
 }
 
-/*function getUidFromUsername(username)
+function getAllUsers()
 {
-    var uid;
-    var ref = database.ref('uidusername/'+username).on(value,function(snapshot){
-        uid = snapshot.key;
+    console.log("getAllUsers() function is called")
+    var l=[];
+    firebase.database().ref("users").on('value',function(snap){
+        snap.forEach(function(child){
+            var temp = [];
+            child.forEach(function(subChild){
+                temp.push(subChild.val());
+            });
+            l.push(temp[2]);
+        })
     });
-    return uid;
-}*/
+
+    getUsers = document.getElementById("allUsers");
+    for( var i =0; i<l.length; i++){
+        var singleUserNode = document.createElement("li");
+        var singleUserNodeContent = document.createElement("a");
+        singleUserNodeContent.textContent = l[i];
+        singleUserNodeContent.href = getProfile(l[i]);
+        singleUserNode.appendChild(singleUserNodeContent);
+        console.log(singleUserNodeContent);
+        getUsers.append(singleUserNode);
+    }
+}
