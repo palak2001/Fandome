@@ -19,26 +19,6 @@ function getUserProfile()
     });
 }
 
-function getProfile(username)
-{
-    var email;
-    var name;
-    firebase.database().ref("users").on('value', function(snap){
-        snap.forEach(function(child){
-            var l=[];
-            child.forEach(function(subChild){
-                l.push(subChild.val());
-            });
-            if(l[2]==username){
-                email = l[0];
-                name = l[1];
-           }
-       });
-     });
-    console.log(email);
-    console.log(name);
-}
-
 function getAllUsers()
 {
     console.log("getAllUsers() function is called")
@@ -58,9 +38,48 @@ function getAllUsers()
         var singleUserNode = document.createElement("li");
         var singleUserNodeContent = document.createElement("a");
         singleUserNodeContent.textContent = l[i];
-        singleUserNodeContent.href = getProfile(l[i]);
+        singleUserNodeContent.href = getProfileByUsername(l[i]);
         singleUserNode.appendChild(singleUserNodeContent);
         console.log(singleUserNodeContent);
         getUsers.append(singleUserNode);
     }
+}
+
+function findUser(){
+    var username = document.getElementById("findUser").value;
+    var infoText = getProfileByUsername(username);
+    var userInfo = document.getElementById("userInfo");
+    for( var i =0; i<infoText.length; i++){
+        var node = document.createElement("li");
+        var nodeContent = document.createElement("a");
+        nodeContent.textContent = infoText[i];
+        //singleUserNodeContent.href = getProfileByUsername(l[i]);
+        node.appendChild(nodeContent);
+        console.log(nodeContent);
+        userInfo.append(node);
+    }
+}
+
+function getProfileByUsername(username)
+{
+    var email;
+    var name;
+    firebase.database().ref("users").on('value', function(snap){
+        snap.forEach(function(child){
+            var l=[];
+            child.forEach(function(subChild){
+                l.push(subChild.val());
+            });
+            if(l[2]==username){
+                email = l[0];
+                name = l[1];
+           }
+       });
+     });
+    console.log(email);
+    console.log(name);
+    var info = [];
+    info.push(email);
+    info.push(name);
+    return info;
 }
