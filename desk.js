@@ -1,36 +1,35 @@
-function getUserProfile()
-{
-    var email;
-    var name;
-    var uid;
-    var username;
+var uid;
     auth.onAuthStateChanged(function(user){
-        console.log(user.uid);
-        var l=[];
-        database.ref('users/'+ user.uid ).on('value',function(snapshot) {
-            snapshot.forEach(function(_child){
-                console.log(_child.val());
-                l.push(_child.val());
-            });
-            email = l[0];
-            name = l[1];
-            uid = user.uid;
-            username = l[2];
-        });
+        uid = user.uid;
+        console.log(uid);
     });
-    var info=[];
-    info.push({"email" : email});
-    info.push({"name" : name});
-    info.push({"uid" : uid});
-    info.push({"username" : username});
-    return info;
+    
+function createDesk(){
+    
+    var name = document.getElementById("deskName").value;
+    var description = document.getElementById("deskDescription").value;
+    console.log(uid);
+    var roomRef = database.ref().child('rooms').push().key;
+    var deskRef = database.ref().child('desks').push();
+    var desk = {
+        "name" : name,
+        "owner" : uid,
+        "description" : description,
+        "roomId" : roomRef,
+        "userList" : [uid],
+        "followers" : 1,
+        "likes" : 0,
+        "dislikes" : 0
+    };
+    console.log(deskRef);
+    console.log(desk);
+    deskRef.set(desk);
 }
 
-function getAllUsers()
-{
-    console.log("getAllUsers() function is called")
+/*function getAllDesks(){
+    console.log("getAllDesks() function is called")
     var l=[];
-    firebase.database().ref("users").on('value',function(snap){
+    firebase.database().ref("desks").on('value',function(snap){
         snap.forEach(function(child){
             child.forEach(function(subChild){
                 if(subChild.key=="username"){
@@ -84,4 +83,4 @@ function getUidByUsername(username)
     console.log(name);
     console.log(uid);
     return uid;
-}
+}*/

@@ -7,6 +7,7 @@
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
         <script src="auth.js"></script>
         <script src="profile.js"></script>
+        <script src="desk.js"></script>
     </head>
     <body onload=isLoggedIn()>
 
@@ -18,13 +19,27 @@
         <!--Navbar ends-->
         
         <div>
-            Hi, this is Gossip Ground!
+            Hi, welcome to Fandome!
         </div>
+
         <button onclick=getAllUsers()>All Users</button>
         <div id = "allUsers"></div>
+
         <input type="text" id="findUser"/>
         <button onclick=findUser()>Search User</button>
         <div id="userInfo"></div>
+
+        <input type="text" placeholder="Desk Name" id="deskName"/>
+        <input type="text" placeholder="Description" id="deskDescription"/>
+        <button onclick=createDesk()>Create Desk</button>
+        <div id="createDeskInfo"></div>
+
+        <button onclick=getAllDesks()>All Desks</button>
+        <div id = "allDesks"></div>
+
+        <input type="text" id="findDesk"/>
+        <button onclick=findDesk()>Search Desk</button>
+        <div id="deskInfo"></div>
 
     </body>
 </html>

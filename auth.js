@@ -12,7 +12,7 @@
   firebase.initializeApp(firebaseConfig);
 
   // Get a reference to the database service
-    var database = firebase.database();
+    const database = firebase.database();
 
     const auth = firebase.auth();
 
@@ -68,7 +68,7 @@ function isLoggedIn(){
     });
 }
 
-function getUserId(){
+function getUser(){
     console.log(user.uid);
-    return user.uid;
+    return user;
 }
