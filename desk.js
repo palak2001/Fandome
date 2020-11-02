@@ -1,7 +1,7 @@
 var uid;
     auth.onAuthStateChanged(function(user){
         uid = user.uid;
-        console.log(uid);
+        console.log("Logged in user id: " + uid);
     });
     
 function createDesk(){
@@ -13,18 +13,53 @@ function createDesk(){
     var deskRef = database.ref().child('desks').push();
     var desk = {
         "name" : name,
+        "did" : deskRef.key,
         "owner" : uid,
         "description" : description,
         "roomId" : roomRef,
         "userList" : [uid],
         "followers" : 1,
         "likes" : 0,
-        "dislikes" : 0
+        "dislikes" : 0,
+        "rating" : 0
     };
-    console.log(deskRef);
-    console.log(desk);
     deskRef.set(desk);
 }
+
+
+function getDidByDeskName(name){
+    console.log(name);
+    database.ref('desks/').on('value',function(snapshot) {
+        snapshot.forEach(function(child){
+            var l=[];
+            child.forEach(function(subChild){
+               l.push(subChild.val()); 
+            });
+            if(l[5]==name){
+                return l[1];
+            }
+        });
+    });
+}
+
+function joinDesk(){
+    var name = document.getElementById("joinDeskName").value;
+    var did;
+    database.ref('desks/').on('value',function(snapshot) {
+        snapshot.forEach(function(child){
+            var l=[];
+            child.forEach(function(subChild){
+               l.push(subChild.val()); 
+            });
+            if(l[5]==name){
+                did = l[1];
+            }
+        });
+    });
+    console.log("did : "+ did);
+    database.ref("desks/" + did + "/userList").push().set(uid);
+}
+
 
 /*function getAllDesks(){
     console.log("getAllDesks() function is called")
