@@ -67,8 +67,3 @@ function isLoggedIn(){
         }
     });
 }
-
-function getUser(){
-    console.log(user.uid);
-    return user;
-}

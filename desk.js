@@ -1,93 +1,97 @@
 var uid;
-    auth.onAuthStateChanged(function(user){
-        uid = user.uid;
-        console.log("Logged in user id: " + uid);
+var uname;
+var upair = {};
+    auth.onAuthStateChanged(async function(user){
+        if(user){
+            uid = user.uid;
+            uname = await getUsernameByUid(uid);
+            console.log("Logged in user id: " + uid);
+            console.log("Logged in username: " + uname);
+            upair[uid] = uname;
+        }
+        else{
+            window.location.href = "main.html";
+        }
     });
     
-function createDesk(){
+async function createDesk(){
     
-    var name = document.getElementById("deskName").value;
+    var deskName = document.getElementById("deskName").value;
     var description = document.getElementById("deskDescription").value;
-    console.log(uid);
-    var roomRef = database.ref().child('rooms').push().key;
-    var deskRef = database.ref().child('desks').push();
+    var roomRef = await database.ref().child('rooms').push();
+    var deskRef = await database.ref().child('desks').push();
     var desk = {
-        "name" : name,
+        "deskName" : deskName,
         "did" : deskRef.key,
         "owner" : uid,
         "description" : description,
-        "roomId" : roomRef,
-        "userList" : [uid],
+        "roomId" : roomRef.key,
+        "userList" : upair,
         "followers" : 1,
         "likes" : 0,
         "dislikes" : 0,
         "rating" : 0
     };
     deskRef.set(desk);
+    var room = {
+        "rid" : roomRef.key
+    }
+    roomRef.set(room);
 }
 
-
-function getDidByDeskName(name){
-    console.log(name);
-    database.ref('desks/').on('value',function(snapshot) {
-        snapshot.forEach(function(child){
-            var l=[];
-            child.forEach(function(subChild){
-               l.push(subChild.val()); 
-            });
-            if(l[5]==name){
-                return l[1];
-            }
-        });
-    });
-}
-
-function joinDesk(){
-    var name = document.getElementById("joinDeskName").value;
+async function getDidByDeskName(deskName){
     var did;
-    database.ref('desks/').on('value',function(snapshot) {
+    console.log(deskName);
+    await database.ref('desks/').once('value',function(snapshot) {
         snapshot.forEach(function(child){
             var l=[];
             child.forEach(function(subChild){
                l.push(subChild.val()); 
             });
-            if(l[5]==name){
-                did = l[1];
+            if(l[5]==deskName){
+                did =  l[1];
             }
         });
     });
+    return did;
+}
+
+async function joinDesk(){
+    var deskName = document.getElementById("joinDeskName").value;
+    var did = await getDidByDeskName(deskName);
     console.log("did : "+ did);
-    database.ref("desks/" + did + "/userList").push().set(uid);
+    database.ref("desks/" + did + "/userList").push().set(upair);
 }
 
 
-/*function getAllDesks(){
+async function getAllDesks(){
     console.log("getAllDesks() function is called")
-    var l=[];
-    firebase.database().ref("desks").on('value',function(snap){
+    var desksList=[];
+    await database.ref("desks").once('value',function(snap){
         snap.forEach(function(child){
             child.forEach(function(subChild){
-                if(subChild.key=="username"){
-                    l.push(subChild.val());
+                if(subChild.key=="deskName"){
+                    desksList.push(subChild.val());
                 }
             });
         })
     });
-    getUsers = document.getElementById("allUsers");
-    for( var i =0; i<l.length; i++){
-        var singleUserNode = document.createElement("li");
-        var singleUserNodeContent = document.createElement("a");
-        singleUserNodeContent.textContent = l[i];
-        singleUserNodeContent.href = getUidByUsername(l[i]);
-        singleUserNode.appendChild(singleUserNodeContent);
-        getUsers.append(singleUserNode);
+    getDesks = document.getElementById("allDesks");
+    for( var i =0; i<desksList.length; i++){
+        var singleDeskNode = document.createElement("li");
+        var singleDeskNodeContent = document.createElement("a");
+        singleDeskNodeContent.textContent = desksList[i];
+        singleDeskNodeContent.href = await getDidByDeskName(desksList[i]);
+        singleDeskNode.appendChild(singleDeskNodeContent);
+        getDesks.append(singleDeskNode);
     }
 }
 
-function findUser(){
-    var username = document.getElementById("findUser").value;
-    var uid = getUidByUsername(username);
-    var userInfo = document.getElementById("userInfo");
+/*
+async function findDesk(){
+    var deskName = document.getElementById("findDesk").value;
+    var did = getDidByDeskName(deskName);
+    var deskInfo = document.getElementById("userInfo");
     var node = document.createElement("a");
     node.textContent = username;
     node.href = uid;
