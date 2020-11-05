@@ -1,12 +1,9 @@
-async function getUserProfile()
-{
-    var email;
-    var name;
-    var uid;
-    var username;
+async function getUserProfile(){
+    
+    let email,name,uid,username;
     await auth.onAuthStateChanged(function(user){
         console.log(user.uid);
-        var l=[];
+        let l=[];
         database.ref('users/'+ user.uid ).once('value',function(snapshot) {
             snapshot.forEach(function(_child){
                 console.log(_child.val());
@@ -18,7 +15,7 @@ async function getUserProfile()
             username = l[2];
         });
     });
-    var info=[];
+    let info=[];
     info.push({"email" : email});
     info.push({"name" : name});
     info.push({"uid" : uid});
@@ -29,20 +26,17 @@ async function getUserProfile()
 async function getAllUsers()
 {
     console.log("getAllUsers() function is called")
-    var usersList=[];
+    let usersList=[];
     await database.ref("users").once('value',function(snap){
         snap.forEach(function(child){
-            child.forEach(function(subChild){
-                if(subChild.key=="username"){
-                    usersList.push(subChild.val());
-                }
-            });
+            let childInfo = child.val();
+            usersList.push(childInfo.username);
         })
     });
     getUsers = document.getElementById("allUsers");
-    for( var i =0; i<usersList.length; i++){
-        var singleUserNode = document.createElement("li");
-        var singleUserNodeContent = document.createElement("a");
+    for( let i =0; i<usersList.length; i++){
+        let singleUserNode = document.createElement("li");
+        let singleUserNodeContent = document.createElement("a");
         singleUserNodeContent.textContent = usersList[i];
         singleUserNodeContent.href = await getUidByUsername(usersList[i]);
         singleUserNode.appendChild(singleUserNodeContent);
@@ -51,10 +45,10 @@ async function getAllUsers()
 }
 
 async function findUser(){
-    var username = document.getElementById("findUser").value;
-    var uid = await getUidByUsername(username);
-    var userInfo = document.getElementById("userInfo");
-    var node = document.createElement("a");
+    let username = document.getElementById("findUser").value;
+    let uid = await getUidByUsername(username);
+    let userInfo = document.getElementById("userInfo");
+    let node = document.createElement("a");
     node.textContent = username;
     node.href = uid;
     console.log(node);
@@ -62,35 +56,28 @@ async function findUser(){
 }
 
 async function getUsernameByUid(uid){
-    var username;
-    await database.ref("users/" + uid).once('value' , function(snap){
-        snap.forEach(function(child){
-            if(child.key=="username"){
-                username = child.val();
-            }
-        })
+    let username;
+    await database.ref("users/" + uid).once('value' , function(child){
+        let childInfo = child.val();
+        username = childInfo.username;
     });
     return username;
 }
 
 async function getUidByUsername(username)
 {
-    var email;
-    var name;
-    var uid;
+    let email;
+    let name;
+    let uid;
     await firebase.database().ref("users").once('value', function(snap){
         snap.forEach(function(child){
-            var l=[];
-            child.forEach(function(subChild){
-                console.log(subChild.key);
-                l.push(subChild.val());
-            });
-            if(l[2]==username){
-                email = l[0];
-                name = l[1];
-                uid = child.key;
-           }
-       });
+            let childInfo = child.val();
+            if(childInfo.username == username){
+                email = childInfo.email;
+                name = childInfo.name;
+                uid = childInfo.uid;
+            }
+        })
      });
     console.log(email);
     console.log(name);
