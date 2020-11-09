@@ -12,7 +12,7 @@ auth.onAuthStateChanged(async function(user){
         upair[uid] = uname;
     }
     else{
-        window.location.href = "main.html";
+        window.location.href = "index.html";
     }
 });
     

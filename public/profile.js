@@ -38,7 +38,7 @@ async function getAllUsers()
         let singleUserNode = document.createElement("li");
         let singleUserNodeContent = document.createElement("a");
         singleUserNodeContent.textContent = usersList[i];
-        singleUserNodeContent.href = await getUidByUsername(usersList[i]);
+        singleUserNodeContent.href = ("profile/"+await getUidByUsername(usersList[i]));
         singleUserNode.appendChild(singleUserNodeContent);
         getUsers.append(singleUserNode);
     }
@@ -66,21 +66,17 @@ async function getUsernameByUid(uid){
 
 async function getUidByUsername(username)
 {
-    let email;
-    let name;
-    let uid;
+    let email,name,uid;
     await firebase.database().ref("users").once('value', function(snap){
         snap.forEach(function(child){
             let childInfo = child.val();
             if(childInfo.username == username){
                 email = childInfo.email;
                 name = childInfo.name;
-                uid = childInfo.uid;
+                uid = child.key;
             }
         })
      });
-    console.log(email);
-    console.log(name);
     console.log(uid);
     return uid;
 }

@@ -59,13 +59,13 @@ function signOut(){
 
     auth.signOut();
     alert("Signed Out");
-    window.location.href = "main.html";
+    window.location.href = "index.html";
 }
 
 function isLoggedIn(){
     auth.onAuthStateChanged(function(user){
         if(user==null){    
-            window.location.href = "main.html";
+            window.location.href = "index.html";
         }
     });
 }
