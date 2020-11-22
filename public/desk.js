@@ -10,6 +10,13 @@ auth.onAuthStateChanged(async function(user){
         console.log("Logged in user id: " + uid);
         console.log("Logged in username: " + uname);
         upair[uid] = uname;
+        console.log(window.location.href);
+        if(window.location == "https://fandome.web.app/home.html"){
+            getMyDesks();
+        }
+        if(window.location.href == "https://fandome.web.app/desk.html"){
+            getAllDesks();
+        }
     }
     else{
         window.location.href = "index.html";
@@ -29,7 +36,7 @@ async function createDesk(){
         "owner" : uid,
         "description" : description,
         "roomId" : roomRef.key,
-        "userList" : upair,
+        "userList" : [uname],
         "followers" : 1,
         "likes" : 0,
         "dislikes" : 0,
@@ -41,6 +48,7 @@ async function createDesk(){
         "rid" : roomRef.key
     }
     roomRef.set(room);
+    await database.ref("users/" + uid + "/desksList").push().set(deskRef.key);
 }
 
 async function getDidByDeskName(deskName){
@@ -58,20 +66,64 @@ async function getDidByDeskName(deskName){
     return did;
 }
 
-async function joinDesk(){
+async function getDeskNameByDid(did){
 
-    let deskName = document.getElementById("joinDeskName").value;
-    let did = await getDidByDeskName(deskName);
-    await database.ref("desks/" + did + "/userList").push().set(upair);
+    let deskName;
+    console.log(did);
+    await database.ref('desks/' + did).once('value' ,function(child){
+        console.log(child.val());
+        let childInfo = child.val();
+        deskName = childInfo.deskName;
+    });
+    return deskName;
 }
 
+async function findDesk(){
+
+    let deskName = document.getElementById("findDesk").value;
+    let did = await getDidByDeskName(deskName);
+    let deskInfo = document.getElementById("deskInfo");
+    let node = document.createTextNode(deskName);
+    let nodeRef = document.createElement("button");
+    if(did==null){
+        nodeRef.innerHTML = 'Create Desk';
+        nodeRef.onclick = "Create desk popup";
+    }
+    else{
+        nodeRef.innerHTML = 'Join Desk';
+        console.log(nodeRef);
+        nodeRef.addEventListener("click",joinDesk(did));
+    }
+    deskInfo.append(node);
+    deskInfo.appendChild(nodeRef);
+}
+
+async function isJoined(did){
+    let res = false;
+    await database.ref("users/" + uid + "/desksList").once('value',function(snap){
+        snap.forEach(function(child){
+            console.log(child.val());
+            if(child.val()==did){
+                res = true;
+            }
+        })
+    });
+    return res;
+}
+
+async function joinDesk(did){
+    if(await isJoined(did))return;
+    await database.ref("desks/" + did + "/userList").push().set(uname);
+    console.log("Joined the Desk");
+    await database.ref("users/" + uid + "/desksList").push().set(did);
+}
 
 async function getAllDesks(){
 
     //get desks list from database
     console.log("getAllDesks() function is called")
     let desksList=[];
-    await database.ref("desks").once('value',function(snap){
+    await database.ref("desks").orderByChild("followers").once('value',function(snap){
         snap.forEach(function(child){
             let childInfo = child.val();
             desksList.push(childInfo.deskName);
@@ -84,45 +136,32 @@ async function getAllDesks(){
         let singleDeskNode = document.createElement("li");
         let singleDeskNodeContent = document.createElement("a");
         singleDeskNodeContent.textContent = desksList[i];
-        singleDeskNodeContent.href = await getDidByDeskName(desksList[i]);
+        singleDeskNodeContent.href = ("room/"+await getDidByDeskName(desksList[i]));
         singleDeskNode.appendChild(singleDeskNodeContent);
         getDesks.append(singleDeskNode);
     }
 }
 
-/*
-async function findDesk(){
-    let deskName = document.getElementById("findDesk").value;
-    let did = getDidByDeskName(deskName);
-    let deskInfo = document.getElementById("userInfo");
-    let node = document.createElement("a");
-    node.textContent = username;
-    node.href = uid;
-    console.log(node);
-    userInfo.append(node);
-}
+async function getMyDesks(){
 
-function getUidByUsername(username)
-{
-    let email;
-    let name;
-    let uid;
-    firebase.database().ref("users").on('value', function(snap){
+    //get desks list from database
+    console.log("getMyDesks() function is called")
+    let desksList=[];
+    await database.ref("users/"+uid+"/desksList").once('value',function(snap){
         snap.forEach(function(child){
-            let l=[];
-            child.forEach(function(subChild){
-                console.log(subChild.key);
-                l.push(subChild.val());
-            });
-            if(l[2]==username){
-                email = l[0];
-                name = l[1];
-                uid = child.key;
-           }
-       });
-     });
-    console.log(email);
-    console.log(name);
-    console.log(uid);
-    return uid;
-}*/
+            console.log(child.val());
+            desksList.push(child.val());
+        })
+    });
+    console.log(desksList);
+    //fill desks list in DOM
+    getDesks = document.getElementById("myDesks");
+    for( let i =0; i<desksList.length; i++){
+        let singleDeskNode = document.createElement("li");
+        let singleDeskNodeContent = document.createElement("a");
+        singleDeskNodeContent.textContent = await getDeskNameByDid(desksList[i]);
+        singleDeskNodeContent.href =  ("room/" + desksList[i]);
+        singleDeskNode.appendChild(singleDeskNodeContent);
+        getDesks.append(singleDeskNode);
+    }
+}

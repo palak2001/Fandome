@@ -12,7 +12,7 @@ async function getUserProfile(){
             email = l[0];
             name = l[1];
             uid = user.uid;
-            username = l[2];
+            username = l[3];
         });
     });
     let info=[];

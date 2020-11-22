@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Profile</title>
+        <title>Room</title>
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
         <script src="../auth.js"></script>
         <script src="../profile.js"></script>
         <script src="../desk.js"></script>
+        <script src="../room.js"></script>
     </head>
-    <body>
-        
+    <body onload=getRid()>
+        <input type="text" id="message" placeholder="type message"/>
+        <button onclick=sendMessage()>Send</button>
+        <div id="messageContainer"></div>
     </body>
 </html>

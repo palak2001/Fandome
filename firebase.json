@@ -9,6 +9,10 @@
     "rewrites": [ {
       "source": "/profile/**",
       "destination": "/profile.html"
+    } ,
+    {
+      "source": "/room/**",
+      "destination": "/room.html"
     } ]
   }
 }

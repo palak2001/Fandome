@@ -22,21 +22,17 @@
         </navbar>
         <!--Navbar ends-->
 
-        <button onclick=getAllUsers()>All Users</button>
-        <div id = "allUsers"></div>
+        <!--Create Desk-->
+        <h1>Create Desk</h1>
+        <input type="text" placeholder="Desk Name" id="deskName"/>
+        <input type="text" placeholder="Description" id="deskDescription"/>
+        <button onclick=createDesk()>Create Desk</button>
+        <div id="createDeskInfo"></div>
 
-        <!--<input type="text" id="findUser"/>
-        <button onclick=findUser()>Search User</button>
-        <div id="userInfo"></div> -->
-
-        <!--Join Desk-->
-        <h1>Join Desk</h1>
-        <button onclick="location.href='desk.html';">Join Desk</button>
-        
-        <!--My Desks-->
-        <h1>My Desks</h1>
-        <button onclick=getMyDesks()>Load Desks</button>
-        <div id = "myDesks"></div>
-
+        <!--Popular Desks-->
+        <h1>Popular Desks</h1>
+        <button onclick=getAllDesks()>Load Desks</button>
+        <div id = "allDesks"></div>
+    
     </body>
 </html>
