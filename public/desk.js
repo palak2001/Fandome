@@ -1,6 +1,6 @@
-let uid;
-let uname;
-let upair = {};
+var uid;
+var uname;
+var upair = {};
 
 auth.onAuthStateChanged(async function(user){
     
@@ -27,7 +27,6 @@ async function createDesk(){
     
     let deskName = document.getElementById("deskName").value;
     let description = document.getElementById("deskDescription").value;
-    let roomRef = await database.ref().child('rooms').push();
     let deskRef = await database.ref().child('desks').push();
 
     let desk = {
@@ -35,7 +34,6 @@ async function createDesk(){
         "did" : deskRef.key,
         "owner" : uid,
         "description" : description,
-        "roomId" : roomRef.key,
         "userList" : [uname],
         "followers" : 1,
         "likes" : 0,
@@ -44,10 +42,6 @@ async function createDesk(){
     };
     deskRef.set(desk);
 
-    let room = {
-        "rid" : roomRef.key
-    }
-    roomRef.set(room);
     await database.ref("users/" + uid + "/desksList").push().set(deskRef.key);
 }
 
