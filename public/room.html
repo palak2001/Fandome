@@ -8,9 +8,22 @@
         <script src="../auth.js"></script>
         <script src="../profile.js"></script>
         <script type="text/javascript" src="../desk.js"></script>
-        <script type="text/javascript" src="../room.js"></script>
+        <script type="text/javascript" src="../room.js"></script>    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../nav.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="nav.css"/>
     </head>
-    <body>
+    <body onload=isLoggedIn()>
+
+        <div class="topnav" id="myTopnav">
+            <a href="#fandome" class="active">FANDOME</a>
+            <a onclick=signOut() style="float: right;">Logout</a>
+            <a onclick=getUserProfile() style="float: right;">Profile</a>
+            <div class="search-container" >
+                <input type="text" placeholder="Search.." id="findDesk" name="search">
+                <button onclick=findDesk()><i class="fa fa-search"></i></button>
+                <span id="deskInfo"></span>
+            </div>
+        </div>
 
         <input type="text" id="message" placeholder="type message"/>
         <input type="submit" onclick="return sendMessage();"/>

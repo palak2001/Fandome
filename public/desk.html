@@ -8,19 +8,21 @@
         <script src="auth.js"></script>
         <script src="profile.js"></script>
         <script src="desk.js"></script>
+        <link rel="stylesheet" href="nav.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="nav.css"/>
     </head>
     <body onload=isLoggedIn()>
 
-        <!--Navbar starts-->
-        <navbar>
-            <button onclick="location.href='home.html';">FANDOME</button>
-            <input type="text" id="findDesk"/>
-            <button onclick=findDesk()>Search Desk</button>
-            <div id="deskInfo"></div>
-            <button onclick=getUserProfile()>Profile</button>
-            <button onclick=signOut() >Logout</button>
-        </navbar>
-        <!--Navbar ends-->
+        <div class="topnav" id="myTopnav">
+            <a href="#fandome" class="active">FANDOME</a>
+            <a onclick=signOut() style="float: right;">Logout</a>
+            <a onclick=getUserProfile() style="float: right;">Profile</a>
+            <div class="search-container" >
+                <input type="text" placeholder="Search.." id="findDesk" name="search">
+                <button onclick=findDesk()><i class="fa fa-search"></i></button>
+                <span id="deskInfo"></span>
+            </div>
+        </div>
 
         <!--Create Desk-->
         <h1>Create Desk</h1>

@@ -86,7 +86,7 @@ async function findDesk(){
     else{
         nodeRef.innerHTML = 'Join Desk';
         console.log(nodeRef);
-        nodeRef.addEventListener("click",joinDesk(did));
+        nodeRef.addEventListener("click",function () {joinDesk(did)});
     }
     deskInfo.append(node);
     deskInfo.appendChild(nodeRef);
