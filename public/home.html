@@ -8,8 +8,10 @@
         <script src="profile.js"></script>
         <script src="desk.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
         <link rel="stylesheet" href="nav.css"/>
         <link rel="stylesheet" href="cards.css"/>
+        <link rel="stylesheet" href="style.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="nav.css"/>
     </head>
     <body onload=isLoggedIn()>
@@ -25,32 +27,35 @@
             </div>
         </div>
 
-        <button onclick=getAllUsers()>All Users</button>
+        <!--<button onclick=getAllUsers()>All Users</button>
         <div id = "allUsers"></div>
 
-        <!--<input type="text" id="findUser"/>
+        <input type="text" id="findUser"/>
         <button onclick=findUser()>Search User</button>
         <div id="userInfo"></div> -->
 
         <!--Join Desk-->
-        <h1>New Desk</h1>
 
-        <div class="flip-card" onclick="location.href='desk.html';">
-        <div class="flip-card-inner">
-            <div class="flip-card-front">
-            <img src="friends.jpg" alt="Avatar" style="width:300px;height:300px;">
+        <div class="container">
+            <h1>New Desk</h1>
+            <div class="flip-card" onclick="location.href='desk.html';">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img src="plus.jpg" alt="Avatar" class="card-img">
+                    </div>
+                    <div class="flip-card-back">
+                        <h1>Wanna new desk</h1> 
+                        <p>Join a desk or create your own</p> 
+                    </div>
+                </div>
             </div>
-            <div class="flip-card-back">
-                <h1>Friends</h1> 
-                <p>I will be there for you</p> 
-            </div>
-        </div>
         </div>
         
-        <!--My Desks-->
-        <h1>My Desks</h1>
         <button onclick=getMyDesks()>Load Desks</button>
-        <div id = "myDesks"></div>
+        <div class="container">
+            <h1>My Desks</h1>
+            <div id = "myDesks"></div>
+        </div>
 
     </body>
 </html>

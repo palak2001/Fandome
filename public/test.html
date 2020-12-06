@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>sample Page</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    
+    <script>
+    
+        $(document).ready(function () {
+    
+            $('#btnAdd').click(function () {
+                var szData = "";
+                szData = '<blockquote class="col-sm-9">  <p class="lead">Lorem Ipsum</p>';
+                szData = szData + '<footer>Lorem Ipsum <cite title="Source Title">Lorem Ipsum</cite>';
+                szData = szData + '</footer></blockquote>';
+    
+                $('div').append(szData)
+            });
+    
+    
+    
+        });
+    
+    
+    </script>
+    </head>
+    <body>
+        <input type="button" value="Add Data" id="btnAdd"/>
+      <div></div>
+    </body>
+    </html>

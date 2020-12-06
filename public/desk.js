@@ -77,6 +77,7 @@ async function findDesk(){
     let deskName = document.getElementById("findDesk").value;
     let did = await getDidByDeskName(deskName);
     let deskInfo = document.getElementById("deskInfo");
+    $(document).ready(function (){$('#deskInfo').empty();});
     let node = document.createTextNode(deskName);
     let nodeRef = document.createElement("button");
     if(did==null){
@@ -88,7 +89,7 @@ async function findDesk(){
         console.log(nodeRef);
         nodeRef.addEventListener("click",function () {joinDesk(did)});
     }
-    deskInfo.append(node);
+    //deskInfo.append(node);
     deskInfo.appendChild(nodeRef);
 }
 
@@ -126,6 +127,7 @@ async function getAllDesks(){
 
     //fill desks list in DOM
     getDesks = document.getElementById("allDesks");
+    $(document).ready(function (){$('#allDesks').empty();});
     for( let i =0; i<desksList.length; i++){
         let singleDeskNode = document.createElement("li");
         let singleDeskNodeContent = document.createElement("a");
@@ -148,14 +150,30 @@ async function getMyDesks(){
         })
     });
     console.log(desksList);
-    //fill desks list in DOM
     getDesks = document.getElementById("myDesks");
+    $(document).ready(function (){$('#myDesks').empty();});
     for( let i =0; i<desksList.length; i++){
-        let singleDeskNode = document.createElement("li");
-        let singleDeskNodeContent = document.createElement("a");
-        singleDeskNodeContent.textContent = await getDeskNameByDid(desksList[i]);
-        singleDeskNodeContent.href =  ("room/" + desksList[i]);
-        singleDeskNode.appendChild(singleDeskNodeContent);
-        getDesks.append(singleDeskNode);
+        await database.ref('desks/' + desksList[i]).once('value' ,function(child){
+            console.log(child.val());
+            let childInfo = child.val();
+        
+            $(document).ready(function () {
+                //$('#myDesks').empty();
+                var container = '<div class="flip-card" style="float:left;" onclick="location.href= \'room/' + desksList[i] + '\'\">';
+                var subContainer = '<div class="flip-card-inner">';
+                var front = '<div class="flip-card-front">';
+                var image = '<img src="friends.jpg" alt="Avatar" class="card-img">';
+                front = front + image + '</div>';
+                var back = '<div class="flip-card-back"> ';
+                var name = '<h1>' + childInfo.deskName + '</h1>';
+                var description = '<h5>' + childInfo.description + '</h5>';
+                var followers = '<h5>Followers : ' + childInfo.followers + '</h5>';
+                var rating = '<h5>Rating : ' + childInfo.rating + '</h5>';
+                back = back + name + description + followers + rating + '</div>';
+                subContainer = subContainer + front + back + '</div>';
+                container = container + subContainer + '</div>';
+                $('#myDesks').append(container);
+            });
+        });
     }
 }
