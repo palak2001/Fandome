@@ -109,6 +109,10 @@ async function isJoined(did){
 async function joinDesk(did){
     if(await isJoined(did))return;
     await database.ref("desks/" + did + "/userList").push().set(uname);
+    await database.ref("desks/" + did).once('value',function(snap){
+        let followers = snap.followers;
+        snap.followers = followers+1;
+    });
     console.log("Joined the Desk");
     await database.ref("users/" + uid + "/desksList").push().set(did);
 }
@@ -150,8 +154,8 @@ async function getMyDesks(){
         })
     });
     console.log(desksList);
-    getDesks = document.getElementById("myDesks");
     $(document).ready(function (){$('#myDesks').empty();});
+    getDesks = document.getElementById("myDesks");
     for( let i =0; i<desksList.length; i++){
         await database.ref('desks/' + desksList[i]).once('value' ,function(child){
             console.log(child.val());

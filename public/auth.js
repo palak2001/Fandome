@@ -20,8 +20,8 @@ const auth = firebase.auth();
 
 function signIn(){
 		
-    let email = document.getElementById("email");
-    let password = document.getElementById("password");
+    let email = document.getElementById("signinemail");
+    let password = document.getElementById("signinpassword");
     
     const promise = auth.signInWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
@@ -33,19 +33,35 @@ function signIn(){
     });
 }
 
-function signUp(){
-    
+async function signUp(){
     let name = document.getElementById("name");
+    let image = document.getElementById("image").files[0];
+    let storageref = firebase.storage().ref('gallery/' + name.value);
+    let uploadTask = storageref.put(image);
+    await uploadTask.on('state_changed', function(snapshot){
+    }, function(error){
+    console.error(error);
+    }, function() {
+    uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        console.log('File available at', downloadURL);
+    });
+    });
     let username = document.getElementById("username");
     let email = document.getElementById("email");
     let password = document.getElementById("password");
     
-    const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
-    promise.catch(e => alert(e.message));
+    const promise = await auth.createUserWithEmailAndPassword(email.value, password.value);
+    
 
-    auth.onAuthStateChanged(function(user){
+    var imgurl;
+    var pathReference = firebase.storage().ref('gallery/'+ name.value);
+    await pathReference.getDownloadURL().then(function(url) {
+    imgurl =  url;});
+
+    await auth.onAuthStateChanged(function(user){
         if(user){
             database.ref('users/' + user.uid).set({
+                image: imgurl,
                 name: name.value,
                 username: username.value,
                 email: user.email
