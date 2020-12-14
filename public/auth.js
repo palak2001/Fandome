@@ -28,7 +28,7 @@ function signIn(){
 
     auth.onAuthStateChanged(function(user){
         if(user){
-            window.location.href = "home.html";   
+            window.location.href = "desk.html";   
         }
     });
 }
@@ -53,8 +53,8 @@ async function signUp(){
     const promise = await auth.createUserWithEmailAndPassword(email.value, password.value);
     
 
-    var imgurl;
-    var pathReference = firebase.storage().ref('gallery/'+ name.value);
+    let imgurl;
+    let pathReference = firebase.storage().ref('gallery/'+ name.value);
     await pathReference.getDownloadURL().then(function(url) {
     imgurl =  url;});
 
@@ -66,7 +66,7 @@ async function signUp(){
                 username: username.value,
                 email: user.email
               });
-            window.location.href = "home.html";   
+            window.location.href = "desk.html";   
         }
     });
 }

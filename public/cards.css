@@ -1,11 +1,7 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  .flip-card {
+    .flip-card {
     background-color: transparent;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     perspective: 1000px;
     border-radius: 10px;
     margin: 10px 10px 10px 10px;
@@ -36,18 +32,18 @@ body {
   }
   
   .flip-card-front {
-    background-color: #bbb;
+    background-color: var(--superPassiveColor);
     color: black;
   }
   
   .flip-card-back {
-    background-color: #2980b9;
+    background-color: var(--superPassiveColor);
     color: white;
     transform: rotateY(180deg);
   }
 
   .card-img{
-    width:200px;
-    height:200px;
+    width:150px;
+    height:150px;
     border-radius: 10px;
   }

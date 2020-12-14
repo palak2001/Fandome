@@ -8,6 +8,7 @@
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-storage.js"></script>
         <script src="auth.js"></script>
         <link rel="stylesheet" href="nav.css"/>
+        <link rel="stylesheet" href="style.css"/>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -33,16 +34,16 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="text-primary">SignUp</h3>
+                        <h3 class="text-primary" id="text-primary" >SignUp</h3>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <div class="modal-body">
-                        <input id="image" type="file" name="profile_photo" placeholder="Photo" id="image" required="" capture>
+                    <div class="modal-body" id="body-modal"> 
                         <input type="text" placeholder="Name" id="name"/>
                         <input type="text" placeholder="Username" id="username"/>
                         <input type="email" placeholder="Email" id="email"/>
                         <input type="password" placeholder="Password" id="password"/>
-                        <button onclick="signUp()">SignUp</button>
+                        <input type="file" name="profile_photo" placeholder="Photo" id="image" required="" capture>
+                        <button id="sign" onclick="signUp()">SignUp</button>
                     </div>
                 </div>
             </div>
@@ -52,13 +53,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="text-primary">SignIn</h3>
+                        <h3 class="text-primary" id="text-primary">SignIn</h3>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="body-modal">
                         <input type="email" placeholder="Email" id="signinemail"/>
                         <input type="password" placeholder="Password" id="signinpassword"/>
-                        <button onclick="signIn()">SignIn</button>
+                        <button id="sign" onclick="signIn()">SignIn</button>
                     </div>
                 </div>
             </div>

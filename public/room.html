@@ -1,33 +1,60 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Room</title>
+        <title>Home</title>
+          <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-storage.js"></script>
         <script src="../auth.js"></script>
         <script src="../profile.js"></script>
-        <script type="text/javascript" src="../desk.js"></script>
-        <script type="text/javascript" src="../room.js"></script>    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../desk.js"></script>
+        <script src="../room.js"></script>
         <link rel="stylesheet" href="../nav.css"/>
+        <link rel="stylesheet" href="../cards.css"/>
+        <link rel="stylesheet" href="../style.css"/>
+        <link rel="stylesheet" href="../room.css"/>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="nav.css"/>
     </head>
     <body onload=isLoggedIn()>
 
-        <div class="topnav" id="myTopnav">
-            <a href="#fandome" class="active">FANDOME</a>
-            <a onclick=signOut() style="float: right;">Logout</a>
-            <a onclick=getUserProfile() style="float: right;">Profile</a>
-            <div class="search-container" >
-                <input type="text" placeholder="Search.." id="findDesk" name="search">
-                <button onclick=findDesk()><i class="fa fa-search"></i></button>
-                <span id="deskInfo"></span>
-            </div>
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div id="deskInfo"></div>
         </div>
 
-        <input type="text" id="message" placeholder="type message"/>
-        <input type="submit" onclick="return sendMessage();"/>
-        
-        <div id="messageContainer"></div>
+        <div id="main">
+            <div class="topnav" id="myTopnav">
+                <a href="#fandome" class="active">FANDOME</a>
+                <a onclick=signOut() style="float: right;">Logout</a>
+                <a onclick='window.location.href= "../profile.html";' style="float: right;">Profile</a>
+                <div class="search-container" >
+                    <input type="text" placeholder="Search.." id="findDesk" name="search">
+                    <button onclick=findDesk() style="outline: none;"><i class="fa fa-search"></i></button>
+                    <span id="deskInfo"></span>
+                </div>
+            </div>
+
+            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
+
+            <div class="jumbotron" id="search-container">
+                <div class="container" id="messageContainer"></div>
+                <input type="text" id="message" placeholder="type message"/>
+                <input type="submit" id="send" onclick="return sendMessage();"/>
+            </div>
+
+        </div>
     </body>
 </html>

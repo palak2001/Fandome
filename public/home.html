@@ -12,6 +12,9 @@
         <link rel="stylesheet" href="nav.css"/>
         <link rel="stylesheet" href="cards.css"/>
         <link rel="stylesheet" href="style.css"/>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="nav.css"/>
     </head>
     <body onload=isLoggedIn()>
@@ -20,24 +23,15 @@
             <a href="#fandome" class="active">FANDOME</a>
             <a onclick=signOut() style="float: right;">Logout</a>
             <a onclick='location.href= "profile.html";' style="float: right;">Profile</a>
-            <div class="search-container" >
+            
+            <div class="search-container" id="search-container" >
                 <input type="text" placeholder="Search.." id="findDesk" name="search">
-                <button onclick=findDesk()><i class="fa fa-search"></i></button>
+                <button onclick=findDesk() style="outline: none;"><i class="fa fa-search"></i></button>
                 <span id="deskInfo"></span>
             </div>
         </div>
-
-        <!--<button onclick=getAllUsers()>All Users</button>
-        <div id = "allUsers"></div>
-
-        <input type="text" id="findUser"/>
-        <button onclick=findUser()>Search User</button>
-        <div id="userInfo"></div> -->
-
-        <!--Join Desk-->
-
         <div class="container">
-            <h1>New Desk</h1>
+            <h3 id="heading">New Desk</h3>
             <div class="flip-card" onclick="location.href='desk.html';">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
@@ -50,10 +44,9 @@
                 </div>
             </div>
         </div>
-        
-        <button onclick=getMyDesks()>Load Desks</button>
+
         <div class="container">
-            <h1>My Desks</h1>
+            <h3 id="heading">My Desks</h3>
             <div id = "myDesks"></div>
         </div>
 

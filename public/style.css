@@ -1,4 +1,73 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    --bgActiveColor:#14161f;
+    --bgPassiveColor:#212431;
+    --superPassiveColor: #4F5D75;
+    --textActiveColor: #FFFFFF;
+    --textPassiveColor: #BFC0C0;
+    --highlightColor: #EE3744;
+    color: var(--textActiveColor) !important;
+    background-color: var(--bgPassiveColor) !important;
+  }
+
+#heading{
+    font-size: 30px;
+    text-decoration: none;
+}
+
+#deskInfo{
+    background-color: var(--highlightColor) !important;
+    color: var(--textActiveColor);
+}
+
 .container{
-    padding: 10px 10px 10px 10px;
-    margin: 10px 10px 10px 10px;
+    padding: 10px !important;
+    margin: 10px 10px 10px 10px !important;
+}
+
+#body-modal{
+    align-items: center;
+    border: 1px solid var(--bgActiveColor);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--bgActiveColor);
+}
+
+#body-modal input, select {
+    outline: none;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    background-color: var(--bgPassiveColor);
+    color: var(--textActiveColor);
+}
+  
+#sign {
+    width: 100%;
+    background-color: var(--highlightColor);
+    color: var(--textActiveColor);
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+#sign:hover {
+    background-color: var(--highlightColor);
+    opacity: .7;
+}
+  
+.close:hover {
+    background-color: var(--highlightColor);
+}
+
+.modal-header{
+    background-color: var(--bgActiveColor);
+}
+
+#text-primary {
+    color: var(--textPassiveColor) !important;
 }
