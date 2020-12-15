@@ -4,7 +4,7 @@
     position: fixed;
     z-index: 1;
     left: 0;
-    background-color:var(--textPassiveColor);
+    background-color:var(--bgActiveColor);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -31,7 +31,7 @@
     font-size: 36px;
     margin-left: 50px;
     border: none;
-    background-color: var(--textPassiveColor);
+    background-color: var(--bgActiveColor);
   }
 
   .closebtn:hover {
@@ -75,21 +75,21 @@
 #chatContainer{
   margin: 10px;
   border-radius: 1px;
-  background-color: var(--superPassiveColor);
+  background-color: var(--highlightColor);
 }
 
 #messageContainer{
   padding: 10px;
   margin: 10px;
-  color: var(--textActiveColor);
+  color: var(--bgActiveColor);
 }
 
 #messageContainer p{
   border-radius: 0px 4px 4px 4px;
   width: fit-content;
   padding :5px !important;
-  background-color: var(--bgActiveColor);
-  color: var(--textActiveColor) !important; 
+  background-color: #9fc2c0;
+  color: var(--bgPassiveColor) !important; 
 }
 
 #dName{
@@ -98,12 +98,12 @@
     position: absolute; 
     z-index: 1;
     font-size: 26px;
-    color: var(--bgActiveColor);
+    color: var(--bgPassiveColor);
 }
 
 #deskInfo{
-  background-color: var(--textPassiveColor) !important;
-  color: var(--bgActiveColor);
+  background-color: var(--bgActiveColor) !important;
+  color: var(--bgPassiveColor);
 }
 
 #dList{
@@ -112,7 +112,7 @@
 }
 
 #deskInfo p{
-  padding: 10px !important;
+  padding: 5px !important;
   margin: 3px;
   font-weight: bold;
 }

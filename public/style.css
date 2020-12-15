@@ -1,12 +1,12 @@
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    --bgActiveColor:#14161f;
-    --bgPassiveColor:#212431;
-    --superPassiveColor: #657288;
+    --bgActiveColor:#45A29E;
+    --bgPassiveColor:	#060c0c;
+    --superPassiveColor: #1F2833;
     --textActiveColor: #FFFFFF;
-    --textPassiveColor: #BFC0C0;
-    --highlightColor: #EE3744;
+    --textPassiveColor: #4E4E50;
+    --highlightColor:#1F2833;
     color: var(--textActiveColor) !important;
     background-color: var(--bgPassiveColor) !important;
   }
@@ -28,10 +28,10 @@ body {
 
 #body-modal{
     align-items: center;
-    border: 1px solid var(--bgPassiveColor);
+    border: 1px solid var(--bgActiveColor);
     border-radius: 4px;
     box-sizing: border-box;
-    background-color: var(--bgActiveColor);
+    background-color: var(--bgPassiveColor);
 }
 
 #body-modal input, select {
@@ -40,8 +40,8 @@ body {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    background-color: var(--bgPassiveColor);
-    color: var(--textActiveColor);
+    background-color: var(--bgActiveColor);
+    color: var(--bgPassiveColor);
 }
   
 #sign {
@@ -65,10 +65,10 @@ body {
 }
 
 .modal-header{
-    background-color: var(--bgActiveColor);
+    background-color: var(--bgPassiveColor);
 }
 
 #text-primary {
-    color: var(--textPassiveColor) !important;
+    color: var(--textActiveColor) !important;
 }
 

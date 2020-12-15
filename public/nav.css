@@ -9,7 +9,7 @@
 #myTopnav a {
   float: left;
   display: block;
-  color: var(--textPassiveColor);
+  color: var(--bgPassiveColor);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -39,7 +39,7 @@
   border: none;
   border-radius: 20px;
   background-color: var(--bgPassiveColor);
-  color: var(--textPassiveColor);
+  color: var(--textActiveColor);
 }
 
 #myTopnav #search-container button {
@@ -60,7 +60,7 @@
 
 .fa-search{
   background-color: var(--bgActiveColor) !important;
-  color: var(--textPassiveColor);
+  color: var(--bgPassiveColor);
   outline: none !important;
 }
 
