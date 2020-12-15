@@ -31,30 +31,30 @@
     <body onload=isLoggedIn()>
 
         <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <div id="deskInfo"></div>
+                <span id="dName"></span>
+                <button href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</button>
+        <div id="deskInfo"></div>
         </div>
 
         <div id="main">
             <div class="topnav" id="myTopnav">
-                <a href="#fandome" class="active">FANDOME</a>
+                <a href="#fandome" onclick="location.href='../desk.html';" class="active">FANDOME</a>
                 <a onclick=signOut() style="float: right;">Logout</a>
-                <a onclick='window.location.href= "../profile.html";' style="float: right;">Profile</a>
-                <div class="search-container" >
+                <a onclick='location.href= "profile.html";' style="float: right;">Profile</a>
+                
+                <div class="search-container" id="search-container" >
                     <input type="text" placeholder="Search.." id="findDesk" name="search">
                     <button onclick=findDesk() style="outline: none;"><i class="fa fa-search"></i></button>
                     <span id="deskInfo"></span>
                 </div>
             </div>
-
-            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-
-            <div class="jumbotron" id="search-container">
-                <div class="container" id="messageContainer"></div>
+            <span style="font-size:30px;cursor:pointer;margin: 10px;color: var(--textPassiveColor);" onclick="openNav()">&#9776; </span>
+            <span id="dList"></span>
+            <div id="chatContainer">
+                <div id="messageContainer"></div>
                 <input type="text" id="message" placeholder="type message"/>
                 <input type="submit" id="send" onclick="return sendMessage();"/>
             </div>
-
         </div>
     </body>
 </html>

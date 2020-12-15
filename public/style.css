@@ -3,7 +3,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     --bgActiveColor:#14161f;
     --bgPassiveColor:#212431;
-    --superPassiveColor: #4F5D75;
+    --superPassiveColor: #657288;
     --textActiveColor: #FFFFFF;
     --textPassiveColor: #BFC0C0;
     --highlightColor: #EE3744;
@@ -28,7 +28,7 @@ body {
 
 #body-modal{
     align-items: center;
-    border: 1px solid var(--bgActiveColor);
+    border: 1px solid var(--bgPassiveColor);
     border-radius: 4px;
     box-sizing: border-box;
     background-color: var(--bgActiveColor);
@@ -71,3 +71,4 @@ body {
 #text-primary {
     color: var(--textPassiveColor) !important;
 }
+

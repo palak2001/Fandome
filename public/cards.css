@@ -37,13 +37,21 @@
   }
   
   .flip-card-back {
-    background-color: var(--superPassiveColor);
-    color: white;
+    background-color: var(--textPassiveColor);
+    color: var(--bgActiveColor);
     transform: rotateY(180deg);
+    padding: 10px;;
   }
 
   .card-img{
     width:150px;
     height:150px;
     border-radius: 10px;
+  }
+
+  #inline-para{
+    font-weight: bold;
+    text-decoration:blue;
+    font-size: 13px;
+    margin-bottom: 1px !important;
   }

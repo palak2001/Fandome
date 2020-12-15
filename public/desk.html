@@ -29,7 +29,7 @@
     <body onload=isLoggedIn()>
 
         <div class="topnav" id="myTopnav">
-            <a href="#fandome" class="active">FANDOME</a>
+            <a href="#fandome" onclick="location.href:'desk.html';" class="active">FANDOME</a>
             <a onclick=signOut() style="float: right;">Logout</a>
             <a onclick='location.href= "profile.html";' style="float: right;">Profile</a>
             
@@ -65,7 +65,7 @@
                             <input type="text" placeholder="Name" id="deskName"/>
                             <input type="text" placeholder="Description" id="deskDescription"/>
                             <input type="file" name="desk_image" placeholder="Photo" id="deskImage" required="" capture>
-                            <button id="sign" class="close" onclick=createDesk()>Create Desk</button>
+                            <button id="sign" onclick=createDesk()>Create Desk</button>
                         </div>
                     </div>
                 </div>

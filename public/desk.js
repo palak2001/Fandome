@@ -23,7 +23,7 @@ async function createDesk(){
     
     let deskName = document.getElementById("deskName").value;
     let deskImage = document.getElementById("deskImage").files[0];
-    let storageref = firebase.storage().ref('desks/' + deskName.value);
+    let storageref = firebase.storage().ref('desks/' + deskName);
     let uploadTask = storageref.put(deskImage);
     await uploadTask.on('state_changed', function(snapshot){
     }, function(error){
@@ -34,7 +34,7 @@ async function createDesk(){
     });
     });
     let imgurl;
-    let pathReference = firebase.storage().ref('desks/'+ deskName.value);
+    let pathReference = firebase.storage().ref('desks/'+ deskName);
     await pathReference.getDownloadURL().then(function(url) {
     imgurl =  url;});
 
@@ -56,6 +56,7 @@ async function createDesk(){
     await deskRef.set(desk);
 
     await database.ref("users/" + uid + "/desksList").push().set(deskRef.key);
+    window.location.href = "desk.html";
 }
 
 async function getDidByDeskName(deskName){
@@ -153,17 +154,19 @@ async function getAllDesks(){
         
             $(document).ready(function () {
                 //$('#myDesks').empty();
-                var container = '<div class="flip-card" style="float:left;" onclick="location.href= \'room/' + desksList[i] + '\'\">';
-                var subContainer = '<div class="flip-card-inner">';
-                var front = '<div class="flip-card-front">';
-                var image = '<img src='+ childInfo.deskImage + 'alt="Avatar" class="card-img">';
+                let container = '<div class="flip-card" style="float:left;" onclick="location.href= \'room/' + desksList[i] + '\'\">';
+                let subContainer = '<div class="flip-card-inner">';
+                let front = '<div class="flip-card-front">';
+                let image = '<img src='+ childInfo.deskImage + 'alt="Avatar" class="card-img">';
                 front = front + image + '</div>';
-                var back = '<div class="flip-card-back"> ';
-                var name = '<h1>' + childInfo.deskName + '</h1>';
-                var description = '<h5>' + childInfo.description + '</h5>';
-                var followers = '<h5>Followers : ' + childInfo.followers + '</h5>';
-                var rating = '<h5>Rating : ' + childInfo.rating + '</h5>';
-                back = back + name + description + followers + rating + '</div>';
+                let back = '<div class="flip-card-back"> ';
+                let name = '<h5>' + childInfo.deskName + '</h5>';
+                let description = '<p id="inline-para">' + childInfo.description + '</p>';
+                let followers = '<p id="inline-para">Followers : ' + childInfo.followers + '</p>';
+                let rating = '<p id="inline-para">Rating : ' + childInfo.rating + '</p>';
+                let likes = '<p id="inline-para">Likes : ' + childInfo.likes + '</p>';
+                let dislikes = '<p id="inline-para">Dislikes : ' + childInfo.dislikes + '</p>';
+                back = back + name + description + followers + rating + likes + dislikes + '</div>';
                 subContainer = subContainer + front + back + '</div>';
                 container = container + subContainer + '</div>';
                 $('#allDesks').append(container);
@@ -192,18 +195,19 @@ async function getMyDesks(){
             let childInfo = child.val();
         
             $(document).ready(function () {
-                //$('#myDesks').empty();
-                var container = '<div class="flip-card" style="float:left;" onclick="location.href= \'room/' + desksList[i] + '\'\">';
-                var subContainer = '<div class="flip-card-inner">';
-                var front = '<div class="flip-card-front">';
-                var image = '<img src="friends.jpg" alt="Avatar" class="card-img">';
+                let container = '<div class="flip-card" style="float:left;" onclick="location.href= \'room/' + desksList[i] + '\'\">';
+                let subContainer = '<div class="flip-card-inner">';
+                let front = '<div class="flip-card-front">';
+                let image = '<img src=' + childInfo.deskImage +'alt="Avatar" class="card-img">';
                 front = front + image + '</div>';
-                var back = '<div class="flip-card-back"> ';
-                var name = '<h1>' + childInfo.deskName + '</h1>';
-                var description = '<h5>' + childInfo.description + '</h5>';
-                var followers = '<h5>Followers : ' + childInfo.followers + '</h5>';
-                var rating = '<h5>Rating : ' + childInfo.rating + '</h5>';
-                back = back + name + description + followers + rating + '</div>';
+                let back = '<div class="flip-card-back"> ';
+                let name = '<h5>' + childInfo.deskName + '</h5>';
+                let description = '<p id="inline-para">' + childInfo.description + '</p>';
+                let followers = '<p id="inline-para">Followers : ' + childInfo.followers + '</p>';
+                let rating = '<p id="inline-para">Rating : ' + childInfo.rating + '</p>';
+                let likes = '<p id="inline-para">Likes : ' + childInfo.likes + '</p>';
+                let dislikes = '<p id="inline-para">Dislikes : ' + childInfo.dislikes + '</p>';
+                back = back + name + description + followers + rating + likes + dislikes + '</div>';
                 subContainer = subContainer + front + back + '</div>';
                 container = container + subContainer + '</div>';
                 $('#myDesks').append(container);
