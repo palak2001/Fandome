@@ -26,9 +26,9 @@
 
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="nav.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-    <body onload=isLoggedIn()>
+    <body onload="isLoggedIn();openNav();">
 
         <div id="mySidenav" class="sidenav">
                 <span id="dName"></span>
@@ -51,9 +51,20 @@
             <span style="font-size:30px;cursor:pointer;margin: 10px;color: var(--textPassiveColor);" onclick="openNav()">&#9776; </span>
             <span id="dList"></span>
             <div id="chatContainer">
-                <div id="messageContainer"></div>
-                <input type="text" id="message" placeholder="type message"/>
-                <input type="submit" id="send" onclick="return sendMessage();"/>
+                <div style="width: 100%;">
+                    <div style="float:left; width: 90%">
+                        <div id="messageContainer"></div>
+                        <input type="text" id="message" placeholder="type message"/>
+                        <input type="submit" id="send" onclick="return sendMessage();"/>
+                    </div>
+                    <div class="btn-group" style="width:7%;float:right;display: block;">
+                        <button onclick="unfollow()">Unfollow</button><br>
+                        <button onclick="like()">Like</button><br>
+                        <button onclick="dislike()">Dislike</button><br>
+                    </div>
+                 </div>
+                 <div style="clear:both"></div>
+                
             </div>
         </div>
     </body>

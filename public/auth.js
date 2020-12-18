@@ -18,15 +18,14 @@ const database = firebase.database();
 //Get a reference to firebase authentication service
 const auth = firebase.auth();
 
-function signIn(){
-		
+async function signIn(){	
     let email = document.getElementById("signinemail");
     let password = document.getElementById("signinpassword");
     
-    const promise = auth.signInWithEmailAndPassword(email.value, password.value);
+    const promise = await auth.signInWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
 
-    auth.onAuthStateChanged(function(user){
+    await auth.onAuthStateChanged(function(user){
         if(user){
             window.location.href = "desk.html";   
         }
@@ -38,11 +37,11 @@ async function signUp(){
     let image = document.getElementById("image").files[0];
     let storageref = firebase.storage().ref('gallery/' + name.value);
     let uploadTask = storageref.put(image);
-    await uploadTask.on('state_changed', function(snapshot){
-    }, function(error){
+    await uploadTask.on('state_changed', async function(snapshot){
+    }, async function(error){
     console.error(error);
-    }, function() {
-    uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    }, async function() {
+    await uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
         console.log('File available at', downloadURL);
     });
     });
@@ -50,36 +49,47 @@ async function signUp(){
     let email = document.getElementById("email");
     let password = document.getElementById("password");
     
-    const promise = await auth.createUserWithEmailAndPassword(email.value, password.value);
+    await auth.createUserWithEmailAndPassword(email.value, password.value).catch(function(error){
+        window.alert("Error: "+ error.message);
+    });
     
-
     let imgurl;
     let pathReference = firebase.storage().ref('gallery/'+ name.value);
     await pathReference.getDownloadURL().then(function(url) {
     imgurl =  url;});
-
-    await auth.onAuthStateChanged(function(user){
+    await auth.onAuthStateChanged(async function(user){
         if(user){
-            database.ref('users/' + user.uid).set({
-                image: imgurl,
-                name: name.value,
-                username: username.value,
-                email: user.email
-              });
-            window.location.href = "desk.html";   
+            user.sendEmailVerification().then(async function(){
+                alert("verify your email id though mail sent to you and then click ok to continue.");
+                await user.reload();
+                if(user.emailVerified){
+                await database.ref('users/' + user.uid).set({
+                    image: imgurl,
+                    name: name.value,
+                    username: username.value,
+                    email: user.email
+                });
+                window.location.href = "desk.html"; 
+                console.log(user.emailVerified);  
+                }
+                else{
+                    console.log(user.emailVerified);  
+                    user.delete();
+                }
+            }).catch(function(error){console.log(error);});
         }
     });
 }
 
-function signOut(){
+async function signOut(){
 
-    auth.signOut();
+    await auth.signOut();
     alert("Signed Out");
     window.location.href = "index.html";
 }
 
-function isLoggedIn(){
-    auth.onAuthStateChanged(function(user){
+async function isLoggedIn(){
+    await auth.onAuthStateChanged(function(user){
         if(user==null){    
             window.location.href = "index.html";
         }

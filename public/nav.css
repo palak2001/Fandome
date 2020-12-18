@@ -26,10 +26,28 @@
   color: var(--textActiveColor) !important;
 }
 
+#myTopnav a:hover{
+  cursor: pointer;
+}
+
 #myTopnav #search-container {
   color: var(--textActiveColor) !important;
   float: right !important;
   border: none;
+}
+
+#deskInfo button{
+  float: right;
+  height:auto;
+  color: var(--bgPassiveColor);
+  margin-top: 3px !important;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+#deskInfo button:hover{
+  background-color: var(--highlightColor) !important;
+  color: var(--textActiveColor);
 }
 
 #myTopnav input[type=text] {
@@ -44,7 +62,7 @@
 
 #myTopnav #search-container button {
   float: right;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-right: 16px;
   background: var(--bgActiveColor);
   font-size: 17px;

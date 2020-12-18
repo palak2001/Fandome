@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     --bgActiveColor:#45A29E;
-    --bgPassiveColor:	#060c0c;
+    --bgPassiveColor:	#070c0f;
     --superPassiveColor: #1F2833;
     --textActiveColor: #FFFFFF;
     --textPassiveColor: #4E4E50;
@@ -72,3 +72,17 @@ body {
     color: var(--textActiveColor) !important;
 }
 
+#allDesks button{
+    block-size: 20%;
+    font-size: 85%;
+    border-radius: 3px;
+    background-color: var(--bgPassiveColor);
+    color: var(--textActiveColor);
+    border: none;
+    outline: none;
+    opacity: .7;
+}
+
+#allDesks button:hover{
+    opacity: .9;
+}

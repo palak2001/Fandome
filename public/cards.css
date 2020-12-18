@@ -6,6 +6,10 @@
     border-radius: 5px;
     margin: 10px 10px 10px 10px;
   }
+
+  .flip-card:hover{
+    cursor: pointer;
+  }
   
   .flip-card-inner {
     position: relative;

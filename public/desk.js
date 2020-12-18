@@ -1,6 +1,6 @@
-var uid;
-var uname;
-var upair = {};
+let uid;
+let uname;
+let upair = {};
 
 auth.onAuthStateChanged(async function(user){
     
@@ -91,14 +91,23 @@ async function findDesk(){
     let deskName = document.getElementById("findDesk").value;
     let did = await getDidByDeskName(deskName);
     let deskInfo = document.getElementById("deskInfo");
-    //$(document).ready(function (){$('#deskInfo').empty();});
     let nodeRef = document.createElement("button");
+    let res = false;
+    await database.ref("users/" + uid + "/desksList").once('value',function(snap){
+        snap.forEach(function(child){
+            console.log(child.val());
+            console.log(did);
+            if(child.val()==did){
+                res = true;
+            }
+        })
+    });
     if(did==null){
         nodeRef.innerHTML = 'Create';
         nodeRef.setAttribute("data-toggle","modal");
         nodeRef.setAttribute("data-target",document.getElementById("createDesk"));
     }
-    else if(isJoined()){
+    else if(res){
         nodeRef.innerHTML = 'Open';
         nodeRef.onclick = "room/" + did;
     }
@@ -108,30 +117,27 @@ async function findDesk(){
         nodeRef.addEventListener("click",function () {joinDesk(did)});
     }
     //deskInfo.append(node);
+    $('#deskInfo').empty();
     deskInfo.appendChild(nodeRef);
 }
 
-async function isJoined(did){
-    let res = false;
-    await database.ref("users/" + uid + "/desksList").once('value',function(snap){
-        snap.forEach(function(child){
-            console.log(child.val());
-            if(child.val()==did){
-                res = true;
-            }
-        })
-    });
-    return res;
-}
-
 async function joinDesk(did){
-    await database.ref("desks/" + did + "/userList").push().set(uname);
-    await database.ref("desks/" + did).once('value',function(snap){
-        let followers = snap.followers;
-        snap.followers = followers+1;
-    });
+    await database.ref("desks/" + did + "/userList").push().set(uid);
+    let followers;
     console.log("Joined the Desk");
     await database.ref("users/" + uid + "/desksList").push().set(did);
+    await database.ref("desks/" + did ).once('value',function(snap){
+        followers = snap.val().followers;
+    });
+    console.log(typeof(followers));
+    followers = followers +1;
+    console.log(followers);
+    await database.ref("desks/" + did ).update({"followers": followers});
+    window.location.href = "desk.html";
+}
+
+async function join(varr){
+    joinDesk(varr.split(' ')[1]);
 }
 
 async function getAllDesks(){
@@ -145,16 +151,14 @@ async function getAllDesks(){
         })
     });
     console.log(desksList);
-    $(document).ready(function (){$('#allDesks').empty();});
+    $('#allDesks').empty();
     getDesks = document.getElementById("allDesks");
     for( let i =0; i<desksList.length; i++){
-        await database.ref('desks/' + desksList[i]).once('value' ,function(child){
+        await database.ref('desks/' + desksList[i]).once('value' ,async function(child){
             console.log(child.val());
             let childInfo = child.val();
         
-            $(document).ready(function () {
-                //$('#myDesks').empty();
-                let container = '<div class="flip-card" style="float:left;" onclick="location.href= \'room/' + desksList[i] + '\'\">';
+                let container = '<div class="flip-card" style="float:left;">';
                 let subContainer = '<div class="flip-card-inner">';
                 let front = '<div class="flip-card-front">';
                 let image = '<img src='+ childInfo.deskImage + 'alt="Avatar" class="card-img">';
@@ -165,12 +169,28 @@ async function getAllDesks(){
                 let followers = '<p id="inline-para">Followers : ' + childInfo.followers + '</p>';
                 let rating = '<p id="inline-para">Rating : ' + childInfo.rating + '</p>';
                 let likes = '<p id="inline-para">Likes : ' + childInfo.likes + '</p>';
-                let dislikes = '<p id="inline-para">Dislikes : ' + childInfo.dislikes + '</p>';
-                back = back + name + description + followers + rating + likes + dislikes + '</div>';
+                let res = false;
+                let did = childInfo.did;
+                await database.ref("users/" + uid + "/desksList").once('value',function(snap){
+                    snap.forEach(function(child){
+                        if(child.val()==did){
+                            res = true;
+                        }
+                    })
+                });
+                let joinButton;
+                if(res){
+                    joinButton = '<button onclick="window.location.href=\'room/'+did+'\';">Open</button>';
+                }
+                else{
+                    joinButton = '<button onclick="join(this.innerHTML)">Join '+did+'</button>';
+                }
+                back = back + name + description + followers + rating + likes + joinButton + '</div>';
                 subContainer = subContainer + front + back + '</div>';
                 container = container + subContainer + '</div>';
+                
                 $('#allDesks').append(container);
-            });
+
         });
     }
 }
@@ -187,14 +207,13 @@ async function getMyDesks(){
         })
     });
     console.log(desksList);
-    $(document).ready(function (){$('#myDesks').empty();});
+    $('#myDesks').empty();
     getDesks = document.getElementById("myDesks");
     for( let i =0; i<desksList.length; i++){
         await database.ref('desks/' + desksList[i]).once('value' ,function(child){
             console.log(child.val());
             let childInfo = child.val();
         
-            $(document).ready(function () {
                 let container = '<div class="flip-card" style="float:left;" onclick="location.href= \'room/' + desksList[i] + '\'\">';
                 let subContainer = '<div class="flip-card-inner">';
                 let front = '<div class="flip-card-front">';
@@ -211,7 +230,7 @@ async function getMyDesks(){
                 subContainer = subContainer + front + back + '</div>';
                 container = container + subContainer + '</div>';
                 $('#myDesks').append(container);
-            });
+            
         });
     }
 }
