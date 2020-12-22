@@ -137,7 +137,7 @@ async function joinDesk(did){
 }
 
 async function join(varr){
-    joinDesk(varr.split(' ')[1]);
+    joinDesk(getDidByDeskName(varr.split(' ')[1]));
 }
 
 async function getAllDesks(){
@@ -183,7 +183,7 @@ async function getAllDesks(){
                     joinButton = '<button onclick="window.location.href=\'room/'+did+'\';">Open</button>';
                 }
                 else{
-                    joinButton = '<button onclick="join(this.innerHTML)">Join '+did+'</button>';
+                    joinButton = '<button onclick="join(this.innerHTML)">Join '+name+'</button>';
                 }
                 back = back + name + description + followers + rating + likes + joinButton + '</div>';
                 subContainer = subContainer + front + back + '</div>';

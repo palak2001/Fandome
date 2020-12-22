@@ -1,6 +1,6 @@
     .flip-card {
     background-color: transparent;
-    width: 150px;
+    width: 200px;
     height: 150px;
     perspective: 1000px;
     border-radius: 5px;
@@ -48,9 +48,10 @@
   }
 
   .card-img{
-    width:150px;
+    width:200px;
     height:150px;
     border-radius: 5px;
+    object-fit: cover;
   }
 
   #inline-para{

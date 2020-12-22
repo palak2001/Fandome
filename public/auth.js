@@ -23,7 +23,6 @@ async function signIn(){
     let password = document.getElementById("signinpassword");
     
     const promise = await auth.signInWithEmailAndPassword(email.value, password.value);
-    promise.catch(e => alert(e.message));
 
     await auth.onAuthStateChanged(function(user){
         if(user){

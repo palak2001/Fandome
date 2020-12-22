@@ -48,45 +48,54 @@
     .sidenav a {font-size: 18px;}
   }
 
-  #message{
+  #textMessage{
       position: relative;
-      margin: 10px 10px 10px 10px;
-      padding: 10px;
-      width: 85%;
+      margin: 10px 5px 5px 5px;
+  padding: 10px;
+      width: 87%;
       background-color: var(--bgPassiveColor);
       color: var(--textActiveColor);
       outline: none;
       border-radius:4px;
-      border: none;
       text-decoration: none;
+      box-shadow: 0 0px 10px rgba(255,255,255,0.1);
+      border: none;
   }
 
-#send{
+#send, #camera{
   position: relative;
-  margin: 10px 10px 10px 10px;
-  padding: 10px;
-  background-color: var(--bgPassiveColor);
-  color: var(--textPassiveColor);
+  border: none;
+  background-color: transparent;
+  color: var(--textActiveColor);
   outline: none;
-      border-radius: 4px;
-      border: none;
-      text-decoration: none;
+  text-decoration: none;
+  margin: 10px 5px 5px 5px;
+  padding: 10px;
+  font-size: 25px;
+}
+
+.inputContainer{
+  margin: 5px 5px 5px 5px;
+  border-radius: 2px;
+  background-color: rgba(255,255,255,0.1);
 }
 
 #chatContainer{
-  margin: 10px;
   border-radius: 1px;
-  background-color: var(--highlightColor);
+  background-color: #131e25;
+  height: 655px;
 }
 
 #messageContainer{
-  padding: 10px;
-  margin: 10px;
+  padding: 15px;
+  margin: 15px;
   color: var(--bgActiveColor);
+  overflow-y: scroll !important;
+  height:555px;
 }
 
 #messageContainer p{
-  border-radius: 0px 5px 5px 5px;
+  border-radius: 10px 5px 5px 10px;
   width: fit-content;
   padding :5px !important;
   background-color: #9fc2c0;
@@ -95,6 +104,15 @@
 
 #messageContainer p:hover{
   opacity: .9;
+}
+
+#messageContainer img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--highlightColor) !important;
+  margin: -10px 15px -10px -10px;
+  object-fit: cover;
 }
 
 #dName{

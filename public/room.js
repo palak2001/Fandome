@@ -1,19 +1,42 @@
 did = window.location.href.split('/')[4];
 var color;
+let uimage;
 auth.onAuthStateChanged(async function(user){
     if(user){
         uid = user.uid;
-        uname = await getUsernameByUid(uid);
+        await database.ref("users/" + uid).once('value',function(snap){
+            uimage = snap.val().image;
+            uname = snap.val().name;
+        })
         loadDList();
     }
 });
 
-async function sendMessage(){
-    let message = document.getElementById('message').value;
+async function sendText(){
+    let message = document.getElementById('textMessage').value;
+    document.getElementById('textMessage').value = "";
     console.log(message);
     await database.ref('desks/'+did+'/messages/').push().set({
+        'image' : uimage,
         'sender' : uname,
-        'message' : message
+        'messageDetails' : {
+            'type': 'text/plain',
+            'message' : message
+        }
+    });
+    return false;
+}
+
+async function sendImage(){
+    let message = document.getElementById('imageMessage').value;
+    console.log(message);
+    await database.ref('desks/'+did+'/messages/').push().set({
+        'image' : uimage,
+        'sender' : uname,
+        'messageDetails' : {
+            'type': 'image/gif',
+            'message' : message
+        }
     });
     return false;
 }
@@ -89,7 +112,7 @@ async function openNav() {
     await database.ref('desks/'+did).once('value',async function(snap){
         let snapInfo = snap.val();
         let deskInfo = '<div>';
-        let deskImage = '<img style="height:450px;" src='+ snapInfo.deskImage + '/>';
+        let deskImage = '<img style="height:450px; object-fit: cover;" src='+ snapInfo.deskImage + '/>';
         let deskName = '<p>'+ snapInfo.deskName + '</p>';
         let desciption = '<p>'+ snapInfo.description + '</p>';
         let owner = '<p>Owner: '+ await getUsernameByUid(snapInfo.owner) + '</p>';
@@ -116,7 +139,6 @@ function getRandomColor() {
     for (var i = 0; i < 6; i++ ) {
         color += letters[Math.floor(Math.random() * 7)];
     }
-   $('p').css('color',color);
 }
   
 database.ref('desks/'+did+'/messages/').on("child_added",async function(snapshot){
@@ -125,7 +147,8 @@ database.ref('desks/'+did+'/messages/').on("child_added",async function(snapshot
     console.log(await snapshot.val());
     let htmlMessage = "";
     getRandomColor();
-    htmlMessage += '<p>' + '<span style="color:'+ color + ';">' + snapshot.val().sender + ': </span>' + snapshot.val().message + "</p>";
+    htmlMessage += '<p>' + '<img style="display: inline-block;" src="'+snapshot.val().image+'"/>' + '<span style="color:'+ color + ';">' + snapshot.val().sender + ': </span>' + snapshot.val().messageDetails.message + "</p>";
     console.log('I am ' +htmlMessage);
     messageContainer.innerHTML += htmlMessage;
+    messageContainer.scrollTop = messageContainer.scrollHeight;
 });

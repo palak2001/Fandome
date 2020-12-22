@@ -54,8 +54,13 @@
                 <div style="width: 100%;">
                     <div style="float:left; width: 90%">
                         <div id="messageContainer"></div>
-                        <input type="text" id="message" placeholder="type message"/>
-                        <input type="submit" id="send" onclick="return sendMessage();"/>
+                        <div class="inputContainer">
+                            <form onsubmit="return false">
+                                <input type="text" id="textMessage" placeholder="type message"/>
+                                <i id="camera" class="fa fa-camera" data-toggle="modal" data-target="#imageMessage"></i>
+                                <button type="submit" id="send" onclick="return sendText();"><i class="fa fa-send"></i></button>
+                            </form>
+                        </div>
                     </div>
                     <div class="btn-group" style="width:7%;float:right;display: block;">
                         <button onclick="unfollow()">Unfollow</button><br>
