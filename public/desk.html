@@ -32,12 +32,28 @@
         <div class="topnav" id="myTopnav">
             <a href="#fandome" onclick="location.href='desk.html';" class="active">FANDOME</a>
             <a onclick=signOut() style="float: right;">Logout</a>
-            <a onclick='location.href= "profile.html";' style="float: right;">Profile</a>
+            <a onclick="getUserProfile()" style="float: right;" data-toggle="modal" data-target="#profile">Profile</a>
             
             <div class="search-container" id="search-container" >
                 <input type="text" placeholder="Search.." id="findDesk" name="search">
                 <button onclick=findDesk() style="outline: none;"><i class="fa fa-search"></i></button>
                 <span id="deskInfo"></span>
+            </div>
+        </div>
+
+        <!--Profile-->
+        <div class="modal" id="profile">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-primary" id="text-primary">Profile</h3>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="body-modal">
+                        <div id="myInfo"></div>
+                        <!-- <button id="sign" onclick=createDesk()>Edit Profile</button> -->
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -105,7 +105,7 @@ async function findDesk(){
     if(did==null){
         nodeRef.innerHTML = 'Create';
         nodeRef.setAttribute("data-toggle","modal");
-        nodeRef.setAttribute("data-target",document.getElementById("createDesk"));
+        nodeRef.setAttribute("data-target","#createDesk");
     }
     else if(res){
         nodeRef.innerHTML = 'Open';
@@ -137,7 +137,7 @@ async function joinDesk(did){
 }
 
 async function join(varr){
-    joinDesk(getDidByDeskName(varr.split(' ')[1]));
+    joinDesk(varr.split(' ')[1]);
 }
 
 async function getAllDesks(){
@@ -183,7 +183,7 @@ async function getAllDesks(){
                     joinButton = '<button onclick="window.location.href=\'room/'+did+'\';">Open</button>';
                 }
                 else{
-                    joinButton = '<button onclick="join(this.innerHTML)">Join '+name+'</button>';
+                    joinButton = '<button onclick="join(this.innerHTML)">Join '+did+'</button>';
                 }
                 back = back + name + description + followers + rating + likes + joinButton + '</div>';
                 subContainer = subContainer + front + back + '</div>';
@@ -209,6 +209,22 @@ async function getMyDesks(){
     console.log(desksList);
     $('#myDesks').empty();
     getDesks = document.getElementById("myDesks");
+
+    if(desksList.length==0){
+        let container = '<div class="flip-card" style="float:left;"\'\">';
+            let subContainer = '<div class="flip-card-inner">';
+            let front = '<div class="flip-card-front">';
+            let image = '<img src="emptyCard.png" alt="Avatar" class="card-img">';
+            front = front + image + '</div>';
+            let back = '<div class="flip-card-back"> ';
+            let name = '<h5>' + "Empty Page List" + '</h5>';
+            let description = '<p id="inline-para">' + "Choose a card from below or create your own fan page" + '</p>';
+            back = back + name + description + '</div>';
+            subContainer = subContainer + front + back + '</div>';
+            container = container + subContainer + '</div>';
+            $('#myDesks').append(container);
+    }
+
     for( let i =0; i<desksList.length; i++){
         await database.ref('desks/' + desksList[i]).once('value' ,function(child){
             console.log(child.val());

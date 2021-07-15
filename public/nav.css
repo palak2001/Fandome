@@ -39,46 +39,47 @@
 #deskInfo button{
   float: right;
   height:auto;
+  background-color: var(--bgActiveColor) !important;
   color: var(--bgPassiveColor);
-  margin-top: 3px !important;
+  margin-top: 2px !important;
   border-radius: 5px;
-  padding: 10px;
-}
-
-#deskInfo button:hover{
-  background-color: var(--highlightColor) !important;
-  color: var(--textActiveColor);
-}
-
-#myTopnav input[type=text] {
-  padding: 6px;
-  margin-top: 8px;
-  font-size: 17px;
   border: none;
-  border-radius: 20px;
-  background-color: var(--bgPassiveColor);
-  color: var(--textActiveColor);
+}
+
+#deskInfo button:focus{
+  opacity: .8;
+}
+
+#myTopnav #search-container{
+  background-color:var(--bgPassiveColor);
+  border-radius: 25px;
+  margin: 5px;
+  padding: 7px;
 }
 
 #myTopnav #search-container button {
   float: right;
-  margin-top: 15px;
+  margin-top: 5px;
   margin-right: 16px;
-  background: var(--bgActiveColor);
+  background: var(--bgPassiveColor);
   font-size: 17px;
   border: none;
   cursor: pointer;
 }
 
 #myTopnav input[type=text] {
+  font-size: 17px;
+  border: none;
   outline: none !important;
-  margin: 5px;
-  padding: 7px;
+  background-color: var(--bgPassiveColor);
+  border-bottom: 2px solid var(--bgActiveColor);
+  color: var(--textActiveColor);
+  margin-left: 15px !important;
 }
 
 .fa-search{
-  background-color: var(--bgActiveColor) !important;
-  color: var(--bgPassiveColor);
+  background-color: var(--bgPassiveColor) !important;
+  color: var(--bgActiveColor);
   outline: none !important;
 }
 

@@ -32,18 +32,6 @@ async function signIn(){
 }
 
 async function signUp(){
-    let name = document.getElementById("name");
-    let image = document.getElementById("image").files[0];
-    let storageref = firebase.storage().ref('gallery/' + name.value);
-    let uploadTask = storageref.put(image);
-    await uploadTask.on('state_changed', async function(snapshot){
-    }, async function(error){
-    console.error(error);
-    }, async function() {
-    await uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-        console.log('File available at', downloadURL);
-    });
-    });
     let username = document.getElementById("username");
     let email = document.getElementById("email");
     let password = document.getElementById("password");
@@ -52,30 +40,25 @@ async function signUp(){
         window.alert("Error: "+ error.message);
     });
     
-    let imgurl;
-    let pathReference = firebase.storage().ref('gallery/'+ name.value);
-    await pathReference.getDownloadURL().then(function(url) {
-    imgurl =  url;});
     await auth.onAuthStateChanged(async function(user){
         if(user){
             user.sendEmailVerification().then(async function(){
                 alert("verify your email id though mail sent to you and then click ok to continue.");
                 await user.reload();
-                if(user.emailVerified){
-                await database.ref('users/' + user.uid).set({
-                    image: imgurl,
-                    name: name.value,
-                    username: username.value,
-                    email: user.email
-                });
-                window.location.href = "desk.html"; 
-                console.log(user.emailVerified);  
+                if(user.emailVerified==true){
+
+                    await database.ref('users/' + user.uid).set({
+                        username: username.value,
+                        email: user.email
+                    });
+                    window.location.href = "desk.html"; 
+                    console.log(user.emailVerified);  
                 }
                 else{
-                    console.log(user.emailVerified);  
+                    console.log(user.emailVerified+"I am emailVerified" + user);  
                     user.delete();
                 }
-            }).catch(function(error){console.log(error);});
+            }).catch(function(error){console.log(error); user.delete()});
         }
     });
 }

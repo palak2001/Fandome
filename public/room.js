@@ -122,8 +122,8 @@ async function openNav() {
         let dislikes = '<p>Dislikes: '+ snapInfo.dislikes + '</p>';
         deskInfo = deskInfo + deskImage + desciption + '<hr/>' + owner + '<hr/>' + followers + '<hr/>' + rating + '<hr/>' + likes + '<hr/>' + dislikes;
         deskInfo = deskInfo + '</div>';
-        $('#deskInfo').empty();
-        $('#deskInfo').append(deskInfo);
+        $('#deskInfoo').empty();
+        $('#deskInfoo').append(deskInfo);
         $('#dName').empty();
         $('#dName').append(deskName);
     });

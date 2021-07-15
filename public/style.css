@@ -19,11 +19,6 @@ body {
     margin-left: 15px;
 }
 
-#deskInfo{
-    background-color: var(--highlightColor) !important;
-    color: var(--textActiveColor);
-}
-
 .container{
     padding: 10px !important;
     margin: 10px 10px 10px 10px !important;
@@ -115,3 +110,9 @@ body {
   ::-webkit-scrollbar-thumb:hover {
     background: #9fc2c0;
   }
+
+#deskInfoo{
+    color: var(--bgPassiveColor);
+    text-align: center !important;
+    font-weight: bold;
+}
