@@ -115,6 +115,15 @@
   object-fit: cover;
 }
 
+#messageContainer p div .message{
+  width: 150px;
+  height: 150px;
+  border-radius: 0% !important;
+  background-color: var(--highlightColor) !important;
+  margin: 0px 0px 0px 30px;
+  object-fit: cover;
+}
+
 #dName{
     left:2% !important; 
     top:2% !important; 

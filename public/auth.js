@@ -22,7 +22,9 @@ async function signIn(){
     let email = document.getElementById("signinemail");
     let password = document.getElementById("signinpassword");
     
-    const promise = await auth.signInWithEmailAndPassword(email.value, password.value);
+    await auth.signInWithEmailAndPassword(email.value, password.value).catch(function(error){
+        window.alert("Error: "+ error.message);
+    });
 
     await auth.onAuthStateChanged(function(user){
         if(user){
@@ -35,6 +37,7 @@ async function signUp(){
     let username = document.getElementById("username");
     let email = document.getElementById("email");
     let password = document.getElementById("password");
+    let default_profile = 'default_profile.png';
     
     await auth.createUserWithEmailAndPassword(email.value, password.value).catch(function(error){
         window.alert("Error: "+ error.message);
@@ -48,6 +51,7 @@ async function signUp(){
                 if(user.emailVerified==true){
 
                     await database.ref('users/' + user.uid).set({
+                        image: default_profile,
                         username: username.value,
                         email: user.email
                     });
@@ -67,7 +71,7 @@ async function signOut(){
 
     await auth.signOut();
     alert("Signed Out");
-    window.location.href = "index.html";
+    window.location.href = "/";
 }
 
 async function isLoggedIn(){

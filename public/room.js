@@ -1,43 +1,68 @@
 did = window.location.href.split('/')[4];
 var color;
+let username;
 let uimage;
 auth.onAuthStateChanged(async function(user){
     if(user){
         uid = user.uid;
         await database.ref("users/" + uid).once('value',function(snap){
+            username = snap.val().username;
             uimage = snap.val().image;
-            uname = snap.val().name;
-        })
+        });
         loadDList();
     }
 });
 
-async function sendText(){
-    let message = document.getElementById('textMessage').value;
-    document.getElementById('textMessage').value = "";
-    console.log(message);
-    await database.ref('desks/'+did+'/messages/').push().set({
-        'image' : uimage,
-        'sender' : uname,
-        'messageDetails' : {
-            'type': 'text/plain',
-            'message' : message
-        }
+async function uploadImageMessage(image,did){
+    var date = Date.now().toString();
+    let storageref = firebase.storage().ref('messages/' + did + '/'+date);
+    let uploadTask = storageref.put(image);
+    await uploadTask.on('state_changed', async function(snapshot){
+    }, async function(error){
+        console.error(error);
+        }, async function() {
+            await uploadTask.snapshot.ref.getDownloadURL().then(async function(downloadURL) {
+                console.log('File available at', downloadURL);
+                let imgurl;
+                let pathReference = firebase.storage().ref('messages/' + did + '/'+date);
+                await pathReference.getDownloadURL().then(function(url) {
+                imgurl =  url;});
+                await database.ref('desks/'+did+'/messages/').push().set({
+                    'image': uimage,
+                    'sender': username,
+                    'messageDetails' : {
+                        'type': 'image/gif',
+                        'message' : imgurl
+                    }
+                });
+            });
     });
-    return false;
 }
 
-async function sendImage(){
-    let message = document.getElementById('imageMessage').value;
+async function sendText(){
+    let message = document.getElementById('textMessage').value;
+    let imageMessage = document.getElementById('imageMessage');
     console.log(message);
-    await database.ref('desks/'+did+'/messages/').push().set({
-        'image' : uimage,
-        'sender' : uname,
-        'messageDetails' : {
-            'type': 'image/gif',
-            'message' : message
-        }
-    });
+    console.log(imageMessage.files);
+    if(message.length==0&&imageMessage.files.length==0){
+        return false;
+    }
+    document.getElementById('textMessage').value = "";
+    if(message.length>0){
+        await database.ref('desks/'+did+'/messages/').push().set({
+            'image': uimage,
+            'sender': username,
+            'messageDetails' : {
+                'type': 'text/plain',
+                'message' : message
+            }
+        });
+    }
+    console.log(imageMessage);
+    if(imageMessage.files.length>0){
+        await uploadImageMessage(imageMessage.files[0],did);
+        removeElement(document.getElementById("imageMessage").files[0]);
+    }
     return false;
 }
 
@@ -45,7 +70,6 @@ async function loadDList(){
     let desksList = [];
     await database.ref("users/"+uid+"/desksList").once('value',function(snap){
         snap.forEach(function(child){
-            console.log(child.val());
             desksList.push(child.val());
         })
     });
@@ -59,7 +83,6 @@ async function loadDList(){
 }
 
 async function unfollow(){
-    console.log('unfollow called');
     let followers;
     await database.ref('desks/' + did).once('value',function(snap){
         followers = snap.val().followers;
@@ -73,7 +96,6 @@ async function unfollow(){
             }
         });
     });
-    console.log(key);
     await database.ref('desks/' + did + '/userList').child(key).remove();
     await database.ref('desks/' + did).update({"followers":followers});
     await database.ref('users/'+ uid + '/desksList').once('value',async function(snap){
@@ -83,7 +105,6 @@ async function unfollow(){
             }
         });
     });
-    console.log(key);
     await database.ref('users/' + uid + '/desksList').child(key).remove();
     window.location.href = "../desk.html";
 }
@@ -133,6 +154,7 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft= "0";
 }
+
 function getRandomColor() {
     var letters = '1234567'.split('');
     color = '#';
@@ -143,12 +165,33 @@ function getRandomColor() {
   
 database.ref('desks/'+did+'/messages/').on("child_added",async function(snapshot){
     let messageContainer = document.getElementById('messageContainer');
-    console.log('why i m not called');
-    console.log(await snapshot.val());
-    let htmlMessage = "";
+    let htmlMessage = document.createElement('p');
     getRandomColor();
-    htmlMessage += '<p>' + '<img style="display: inline-block;" src="'+snapshot.val().image+'"/>' + '<span style="color:'+ color + ';">' + snapshot.val().sender + ': </span>' + snapshot.val().messageDetails.message + "</p>";
-    console.log('I am ' +htmlMessage);
-    messageContainer.innerHTML += htmlMessage;
+    let userImage = new Image();
+    userImage.style.display = 'inline-block';
+    userImage.src = snapshot.val().image;
+    let userName = document.createElement('span');
+    userName.style.color = color;
+    userName.innerHTML = snapshot.val().sender;
+    htmlMessage.appendChild(userImage);
+    htmlMessage.appendChild(userName);
+    if(snapshot.val().messageDetails.type=="text/plain"){
+        let textMessage = document.createElement('span');
+        textMessage.innerHTML = ": "+snapshot.val().messageDetails.message;
+        htmlMessage.appendChild(textMessage);
+    }
+    else{
+        let imageMessage = new Image();
+        imageMessage.src = snapshot.val().messageDetails.message;
+        imageMessage.className = 'message';
+        let div = document.createElement('div');
+        div.append(imageMessage);
+        htmlMessage.append(div);
+    }
+    messageContainer.append(htmlMessage);
     messageContainer.scrollTop = messageContainer.scrollHeight;
 });
+
+function removeElement(ele) {
+    ele.parentNode.removeChild(ele);
+}

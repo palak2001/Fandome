@@ -7,10 +7,7 @@ auth.onAuthStateChanged(async function(user){
     if(user){
         uid = user.uid;
         uname = await getUsernameByUid(uid);
-        console.log("Logged in user id: " + uid);
-        console.log("Logged in username: " + uname);
         upair[uid] = uname;
-        console.log(window.location.href);
         getMyDesks();
         getAllDesks();
     }
@@ -60,9 +57,7 @@ async function createDesk(){
 }
 
 async function getDidByDeskName(deskName){
-
     let did;
-    console.log(deskName);
     await database.ref('desks/').once('value',function(snapshot){
         snapshot.forEach(function(child){
             let childInfo = child.val();
@@ -75,11 +70,8 @@ async function getDidByDeskName(deskName){
 }
 
 async function getDeskNameByDid(did){
-
     let deskName;
-    console.log(did);
     await database.ref('desks/' + did).once('value' ,function(child){
-        console.log(child.val());
         let childInfo = child.val();
         deskName = childInfo.deskName;
     });
@@ -95,8 +87,6 @@ async function findDesk(){
     let res = false;
     await database.ref("users/" + uid + "/desksList").once('value',function(snap){
         snap.forEach(function(child){
-            console.log(child.val());
-            console.log(did);
             if(child.val()==did){
                 res = true;
             }
@@ -113,7 +103,6 @@ async function findDesk(){
     }
     else{
         nodeRef.innerHTML = 'Join';
-        console.log(nodeRef);
         nodeRef.addEventListener("click",function () {joinDesk(did)});
     }
     //deskInfo.append(node);
@@ -124,14 +113,11 @@ async function findDesk(){
 async function joinDesk(did){
     await database.ref("desks/" + did + "/userList").push().set(uid);
     let followers;
-    console.log("Joined the Desk");
     await database.ref("users/" + uid + "/desksList").push().set(did);
     await database.ref("desks/" + did ).once('value',function(snap){
         followers = snap.val().followers;
     });
-    console.log(typeof(followers));
     followers = followers +1;
-    console.log(followers);
     await database.ref("desks/" + did ).update({"followers": followers});
     window.location.href = "desk.html";
 }
@@ -143,19 +129,16 @@ async function join(varr){
 async function getAllDesks(){
 
     //get desks list from database
-    console.log("getAllDesks() function is called")
     let desksList=[];
     await database.ref("desks").orderByChild("followers").once('value',function(snap){
         snap.forEach(function(child){
             desksList.push(child.val().did);
         })
     });
-    console.log(desksList);
     $('#allDesks').empty();
     getDesks = document.getElementById("allDesks");
     for( let i =0; i<desksList.length; i++){
         await database.ref('desks/' + desksList[i]).once('value' ,async function(child){
-            console.log(child.val());
             let childInfo = child.val();
         
                 let container = '<div class="flip-card" style="float:left;">';
@@ -198,15 +181,12 @@ async function getAllDesks(){
 async function getMyDesks(){
 
     //get desks list from database
-    console.log("getMyDesks() function is called")
     let desksList=[];
     await database.ref("users/"+uid+"/desksList").once('value',function(snap){
         snap.forEach(function(child){
-            console.log(child.val());
             desksList.push(child.val());
         })
     });
-    console.log(desksList);
     $('#myDesks').empty();
     getDesks = document.getElementById("myDesks");
 
@@ -227,7 +207,6 @@ async function getMyDesks(){
 
     for( let i =0; i<desksList.length; i++){
         await database.ref('desks/' + desksList[i]).once('value' ,function(child){
-            console.log(child.val());
             let childInfo = child.val();
         
                 let container = '<div class="flip-card" style="float:left;" onclick="location.href= \'room/' + desksList[i] + '\'\">';

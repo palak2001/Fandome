@@ -40,12 +40,27 @@
             <div class="topnav" id="myTopnav">
                 <a onclick="location.href='../desk.html';" class="active">FANDOME</a>
                 <a onclick=signOut() style="float: right;">Logout</a>
-                <a onclick='location.href= "profile.html";' style="float: right;">Profile</a>
-                
+                <a onclick="getUserProfile()" style="float: right;" data-toggle="modal" data-target="#profile">Profile</a>
+            
                 <div class="search-container" id="search-container" >
-                    <input type="text" placeholder="Search.." id="findDesk" name="search">
+                    <input type="text" placeholder="Search Page.." id="findDesk" name="search">
                     <button onclick=findDesk() style="outline: none;"><i class="fa fa-search"></i></button>
                     <span id="deskInfo"></span>
+                </div>
+            </div>
+
+            <!--Profile-->
+            <div class="modal" id="profile">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="text-primary" id="text-primary">Profile</h3>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body" id="body-modal">
+                            <div id="myInfo"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <span style="font-size:30px;cursor:pointer;margin: 10px;color: var(--textPassiveColor);" onclick="openNav()">&#9776; </span>
@@ -57,7 +72,8 @@
                         <div class="inputContainer">
                             <form onsubmit="return false">
                                 <input type="text" id="textMessage" placeholder="type message"/>
-                                <i id="camera" class="fa fa-camera" data-toggle="modal" data-target="#imageMessage"></i>
+                                <label for="imageMessage" style="cursor: pointer;"><i id="camera" class="fa fa-camera" ></i></label>
+                                <input type="file" style="display: none;visibility: none;" id="imageMessage"/>
                                 <button type="submit" id="send" onclick="return sendText();"><i class="fa fa-send"></i></button>
                             </form>
                         </div>

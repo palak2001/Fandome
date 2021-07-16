@@ -8,8 +8,13 @@ async function getUserProfile(){
 
             let div = document.createElement('div');
             div.className = "card";
-            div.style = "style.css"
+            div.style.backgroundColor = "transparent";
 
+            if(childInfo.image!= undefined){
+                let actualImage = new Image();
+                actualImage.src = childInfo.image;
+                div.append(actualImage);
+            }
             let img = document.createElement('input');
             img.setAttribute("type", "file");
             img.name = "profile_photo";
@@ -26,14 +31,14 @@ async function getUserProfile(){
             }
             name.placeholder = namePlace;
 
-            let username = document.createElement('h3');
+            let username = document.createElement('h6');
             username.innerHTML = "Username: " + childInfo.username;
 
-            let email = document.createElement('h3');
+            let email = document.createElement('h6');
             email.innerHTML = "Email: " + childInfo.email;
 
             let save = document.createElement('button');
-            save.innerHTML = "Save"
+            save.innerHTML = "Save";
             save.addEventListener("click",async function () {await editProfile(name.value,img,childInfo.username,uid)});
             
             div.append(img,name,username,email,save);
@@ -44,21 +49,29 @@ async function getUserProfile(){
 }
 
 async function uploadImage(image,username,uid){
-    let storageref = firebase.storage().ref('gallery/' + username);
-    let uploadTask = storageref.put(image);
-    await uploadTask.on('state_changed', async function(snapshot){
-    }, async function(error){
-        console.error(error);
-        }, async function() {
-            await uploadTask.snapshot.ref.getDownloadURL().then(async function(downloadURL) {
-                console.log('File available at', downloadURL);
-                let pathReference = firebase.storage().ref('gallery/'+ username);
-                let imgurl;
-                await pathReference.getDownloadURL().then(function(url) {
-                imgurl =  url;});
-                await database.ref("users/" + uid ).update({"image": imgurl});
-            });
-    });
+    if(image!=undefined&&image.files!=undefined&&image.files.length>0){
+        image = image.files[0];
+        console.log(image);
+        let storageref = firebase.storage().ref('gallery/' + username);
+        let uploadTask = storageref.put(image);
+        await uploadTask.on('state_changed', async function(snapshot){
+        }, async function(error){
+            console.error(error);
+            }, async function() {
+                await uploadTask.snapshot.ref.getDownloadURL().then(async function(downloadURL) {
+                    console.log('File available at', downloadURL);
+                    let pathReference = firebase.storage().ref('gallery/'+ username);
+                    let imgurl;
+                    await pathReference.getDownloadURL().then(function(url) {
+                    imgurl =  url;});
+                    await database.ref("users/" + uid ).update({"image": imgurl});
+                });
+                window.location.href = window.location.href;
+        });
+    }
+    else{
+        window.location.href = window.location.href;
+    }
 }
 
 async function getAllUsers()
@@ -121,13 +134,7 @@ async function getUidByUsername(username)
 
 async function editProfile(name,image,username,uid){
     console.log("save working.............")
-    console.log(image.files);
-    if(image.files.length>1){
-        console.log(image.files);
-        await uploadImage(image.files[0],username,uid);
-    }
-    if(name!=undefined){
-        await database.ref("users/" + uid ).update({"name": name});
-    }
-    window.location.href = "desk.html";
+    console.log(image);
+    await database.ref("users/" + uid ).update({"name": name});
+    await uploadImage(image,username,uid);
 }
