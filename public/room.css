@@ -116,8 +116,8 @@
 }
 
 #messageContainer p div .message{
-  width: 150px;
-  height: 150px;
+  width: fit-content;
+  height: 55% ;
   border-radius: 0% !important;
   background-color: var(--highlightColor) !important;
   margin: 0px 0px 0px 30px;

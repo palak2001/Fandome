@@ -3,14 +3,15 @@ body {
     zoom: 85% !important;
     overflow-x: hidden;
     font-family: Arial, Helvetica, sans-serif;
-    --bgActiveColor:#45A29E;
-    --bgPassiveColor:	#0b1318;
+    --bgActiveColor:#87dfda;
+    --bgPassiveColor:	#101b22;
     --superPassiveColor: #1F2833;
     --textActiveColor: #FFFFFF;
     --textPassiveColor: #4E4E50;
     --highlightColor:#1F2833;
     color: var(--textActiveColor) !important;
     background-color: var(--bgPassiveColor) !important;
+    font-family:'Gill Sans' !important;
   }
 
 #heading{
@@ -115,4 +116,34 @@ body {
     color: var(--bgPassiveColor);
     text-align: center !important;
     font-weight: bold;
+}
+
+.home{
+    background-image: url('h.png');
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.home div{
+    background-color: var(--bgPassiveColor);
+    color: var(--bgActiveColor);
+    width: 40%;
+    font-size:xx-large;
+    border-radius: 3px;
+    padding: 50px;
+    margin: 20px;
+  position: absolute;
+  top: 30%;
+  -ms-transform: translateY(-30%);
+  transform: translateY(-30%);
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.home div span{
+    font-size: 80px;
 }

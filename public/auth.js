@@ -37,18 +37,45 @@ async function signUp(){
     let username = document.getElementById("username");
     let email = document.getElementById("email");
     let password = document.getElementById("password");
-    let default_profile = 'default_profile.png';
+    if(password.value===null||password.value.match(/^ *$/) !== null){
+        alert("Password cannot be empty");
+        return;
+    }
+
+    await auth.createUserWithEmailAndPassword(email.value, password.value)
+    .then(async function(us){
+        console.log(us);
+        let user = auth.currentUser;
+        await database.ref('users/' + user.uid).set({
+            image: "gs://fandome.appspot.com/default_profile.png",
+            username: username.value,
+            email: user.email
+        });
+        user = auth.currentUser;
+        if(user){
+            await user.sendEmailVerification({url: "https://fandome.web.app/",}).then(async function(){
+            alert("Email Verification link sent!");
+            user.reload();
+            })
+        }
+    })
+  .catch((error) => {
+        window.alert(error);
+        return;
+  });
+
     
-    await auth.createUserWithEmailAndPassword(email.value, password.value).catch(function(error){
-        window.alert("Error: "+ error.message);
-    });
+}
+    /*await auth.createUserWithEmailAndPassword(email.value, password.value)
+    .then(async function(){
+
     
+   
     await auth.onAuthStateChanged(async function(user){
         if(user){
             user.sendEmailVerification().then(async function(){
                 alert("verify your email id though mail sent to you and then click ok to continue.");
                 await user.reload();
-                if(user.emailVerified==true){
 
                     await database.ref('users/' + user.uid).set({
                         image: default_profile,
@@ -57,15 +84,15 @@ async function signUp(){
                     });
                     window.location.href = "desk.html"; 
                     console.log(user.emailVerified);  
-                }
-                else{
-                    console.log(user.emailVerified+"I am emailVerified" + user);  
-                    user.delete();
-                }
+                
             }).catch(function(error){console.log(error); user.delete()});
         }
     });
-}
+})
+    .catch(function(error){
+        window.alert("Error: "+ error.message);
+    });*/
+
 
 async function signOut(){
 
