@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+        <meta charset="UTF-8">
+          <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-storage.js"></script>
+        <script src="../auth.js"></script>
+        <script src="../profile.js"></script>
+        <script src="../desk.js"></script>
+        <script src="../room.js"></script>
+        <link rel="stylesheet" href="../nav.css"/>
+        <link rel="stylesheet" href="../cards.css"/>
+        <link rel="stylesheet" href="../style.css"/>
+        <link rel="stylesheet" href="../room.css"/>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link href="lib/css/emoji.css" rel="stylesheet">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body onload="isLoggedIn();openNav();">
+
+        <div id="mySidenav" class="sidenav">
+                <span id="dName"></span>
+                <button href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</button>
+        <div id="deskInfoo"></div>
+        </div>
+
+        <div id="main">
+            <div class="topnav" id="myTopnav">
+                <a onclick="location.href='../desk.html';" class="active">FANDOME</a>
+                <a onclick=signOut() style="float: right;">Logout</a>
+                <a onclick="getUserProfile()" style="float: right;" data-toggle="modal" data-target="#profile">Profile</a>
+            
+                <div class="search-container" id="search-container" >
+                    <input type="text" placeholder="Search Page.." id="findDesk" name="search">
+                    <button onclick=findDesk() style="outline: none;"><i class="fa fa-search"></i></button>
+                    <span id="deskInfo"></span>
+                </div>
+            </div>
+
+            <!--Profile-->
+            <div class="modal" id="profile">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="text-primary" id="text-primary">Profile</h3>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body" id="body-modal">
+                            <div id="myInfo"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span style="font-size:30px;cursor:pointer;margin: 10px;color: var(--textPassiveColor);" onclick="openNav()">&#9776; </span>
+            <span id="dList"></span>
+            <div id="chatContainer">
+                <div style="width: 100%;">
+                    <div style="float:left; width: 90%">
+                        <div id="messageContainer"></div>
+                        <div class="inputContainer">
+                            <form onsubmit="return false">
+                                <input type="text" id="textMessage" placeholder="type message"/>
+                                <label for="imageMessage" style="cursor: pointer;"><i id="camera" class="fa fa-camera" ></i></label>
+                                <input type="file" style="display: none;visibility: none;" id="imageMessage"/>
+                                <button type="submit" id="send" onclick="return sendText();"><i class="fa fa-send"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="btn-group" style="width:7%;float:right;display: block;">
+                        <button onclick="unfollow()">Unfollow</button><br>
+                        <button onclick="like()">Like</button><br>
+                        <button onclick="dislike()">Dislike</button><br>
+                    </div>
+                 </div>
+                 <div style="clear:both"></div>
+                
+            </div>
+        </div>
+        
+    </body>
+</html>

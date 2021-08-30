@@ -1,0 +1,149 @@
+body {
+    margin: 0;
+    zoom: 85% !important;
+    overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    --bgActiveColor:#87dfda;
+    --bgPassiveColor:	#101b22;
+    --superPassiveColor: #1F2833;
+    --textActiveColor: #FFFFFF;
+    --textPassiveColor: #4E4E50;
+    --highlightColor:#1F2833;
+    color: var(--textActiveColor) !important;
+    background-color: var(--bgPassiveColor) !important;
+    font-family:'Gill Sans' !important;
+  }
+
+#heading{
+    font-size: 23px;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.container{
+    padding: 10px !important;
+    margin: 10px 10px 10px 10px !important;
+}
+
+#body-modal{
+    align-items: center;
+    border: 1px solid var(--bgActiveColor);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--bgPassiveColor);
+}
+
+#body-modal input, select {
+    outline: none;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    background-color: var(--bgActiveColor);
+    color: var(--bgPassiveColor);
+}
+  
+#sign {
+    width: 100%;
+    background-color: var(--highlightColor);
+    color: var(--textActiveColor);
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+#sign:hover {
+    background-color: var(--highlightColor);
+    opacity: .7;
+}
+  
+.close:hover {
+    background-color: var(--highlightColor);
+}
+
+.modal-header{
+    background-color: var(--bgPassiveColor);
+}
+
+#text-primary {
+    color: var(--textActiveColor) !important;
+}
+
+#allDesks button{
+    width: fit-content;
+    font-size: 15px !important;
+    border-radius: 3px;
+    background-color: var(--bgPassiveColor);
+    color: var(--textActiveColor);
+    border: none;
+    outline: none;
+    opacity: .7;
+    display: inline !important;
+}
+
+#allDesks button:hover{
+    opacity: .9;
+}
+
+.modal-backdrop {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--bgPassiveColor);
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #9fc2c0;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9fc2c0;
+  }
+
+#deskInfoo{
+    color: var(--bgPassiveColor);
+    text-align: center !important;
+    font-weight: bold;
+}
+
+.home{
+    background-image: url('h.png');
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.home div{
+    background-color: var(--bgPassiveColor);
+    color: var(--bgActiveColor);
+    width: 40%;
+    font-size:xx-large;
+    border-radius: 3px;
+    padding: 50px;
+    margin: 20px;
+  position: absolute;
+  top: 30%;
+  -ms-transform: translateY(-30%);
+  transform: translateY(-30%);
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.home div span{
+    font-size: 80px;
+}

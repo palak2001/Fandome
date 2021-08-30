@@ -1,0 +1,103 @@
+* {box-sizing: border-box;}
+
+#myTopnav {
+  overflow: hidden;
+  background-color: var(--bgActiveColor);
+  z-index: 0;
+}
+
+#myTopnav a {
+  float: left;
+  display: block;
+  color: var(--bgPassiveColor);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#myTopnav a:hover {
+  background-color:var(--bgPassiveColor);
+  color: var(--textActiveColor);
+}
+
+#myTopnav a.active {
+  background-color: var(--highlightColor);
+  color: var(--textActiveColor) !important;
+}
+
+#myTopnav a:hover{
+  cursor: pointer;
+}
+
+#myTopnav #search-container {
+  color: var(--textActiveColor) !important;
+  float: right !important;
+  border: none;
+}
+
+#deskInfo button{
+  float: right;
+  height:auto;
+  background-color: var(--bgActiveColor) !important;
+  color: var(--bgPassiveColor);
+  margin-top: 2px !important;
+  border-radius: 5px;
+  border: none;
+}
+
+#deskInfo button:focus{
+  opacity: .8;
+}
+
+#myTopnav #search-container{
+  background-color:var(--bgPassiveColor);
+  border-radius: 25px;
+  margin: 5px;
+  padding: 7px;
+}
+
+#myTopnav #search-container button {
+  float: right;
+  margin-top: 5px;
+  margin-right: 16px;
+  background: var(--bgPassiveColor);
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+#myTopnav input[type=text] {
+  font-size: 17px;
+  border: none;
+  outline: none !important;
+  background-color: var(--bgPassiveColor);
+  border-bottom: 2px solid var(--bgActiveColor);
+  color: var(--textActiveColor);
+  margin-left: 15px !important;
+}
+
+.fa-search{
+  background-color: var(--bgPassiveColor) !important;
+  color: var(--bgActiveColor);
+  outline: none !important;
+}
+
+.fa-search:hover {
+  color: var(--textActiveColor) !important;
+}
+
+@media screen and (max-width: 600px) {
+  #myTopnav .search-container {
+    float: none;
+    border: none;
+  }
+  #myTopnav a, #myTopnav input[type=text], #myTopnav .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+}
