@@ -1,8 +1,8 @@
-async function getUserProfile(){
+async function getUserProfile() {
     $('#myInfo').empty();
-    await auth.onAuthStateChanged(async function(user){
+    await auth.onAuthStateChanged(async function (user) {
         console.log(user.uid);
-        await database.ref('users/'+ user.uid ).once('value',function(child) {
+        await database.ref('users/' + user.uid).once('value', function (child) {
             let childInfo = child.val();
             console.log(childInfo);
 
@@ -10,7 +10,7 @@ async function getUserProfile(){
             div.className = "card";
             div.style.backgroundColor = "transparent";
 
-            if(childInfo.image!= undefined){
+            if (childInfo.image != undefined) {
                 let actualImage = new Image();
                 actualImage.src = childInfo.image;
                 div.append(actualImage);
@@ -23,10 +23,10 @@ async function getUserProfile(){
             let name = document.createElement("input");
             name.type = "text";
             name.name = "Name";
-            if(childInfo.name==undefined){
+            if (childInfo.name == undefined) {
                 namePlace = "Anonymous";
             }
-            else{
+            else {
                 namePlace = childInfo.name
             }
             name.placeholder = namePlace;
@@ -39,63 +39,63 @@ async function getUserProfile(){
 
             let save = document.createElement('button');
             save.innerHTML = "Save";
-            save.addEventListener("click",async function () {await editProfile(name.value,img,childInfo.username,uid)});
-            
-            div.append(img,name,username,email,save);
+            save.addEventListener("click", async function () { await editProfile(name.value, img, childInfo.username, uid) });
+
+            div.append(img, name, username, email, save);
             $('#myInfo').append(div);
 
         });
     });
 }
 
-async function uploadImage(image,username,uid){
-    if(image!=undefined&&image.files!=undefined&&image.files.length>0){
+async function uploadImage(image, username, uid) {
+    if (image != undefined && image.files != undefined && image.files.length > 0) {
         image = image.files[0];
         console.log(image);
         let storageref = firebase.storage().ref('gallery/' + username);
         let uploadTask = storageref.put(image);
-        await uploadTask.on('state_changed', async function(snapshot){
-        }, async function(error){
+        await uploadTask.on('state_changed', async function (snapshot) {
+        }, async function (error) {
             console.error(error);
-            }, async function() {
-                await uploadTask.snapshot.ref.getDownloadURL().then(async function(downloadURL) {
-                    console.log('File available at', downloadURL);
-                    let pathReference = firebase.storage().ref('gallery/'+ username);
-                    let imgurl;
-                    await pathReference.getDownloadURL().then(function(url) {
-                    imgurl =  url;});
-                    await database.ref("users/" + uid ).update({"image": imgurl});
+        }, async function () {
+            await uploadTask.snapshot.ref.getDownloadURL().then(async function (downloadURL) {
+                console.log('File available at', downloadURL);
+                let pathReference = firebase.storage().ref('gallery/' + username);
+                let imgurl;
+                await pathReference.getDownloadURL().then(function (url) {
+                    imgurl = url;
                 });
-                window.location.href = window.location.href;
+                await database.ref("users/" + uid).update({ "image": imgurl });
+            });
+            window.location.href = window.location.href;
         });
     }
-    else{
+    else {
         window.location.href = window.location.href;
     }
 }
 
-async function getAllUsers()
-{
+async function getAllUsers() {
     console.log("getAllUsers() function is called")
-    let usersList=[];
-    await database.ref("users").once('value',function(snap){
-        snap.forEach(function(child){
+    let usersList = [];
+    await database.ref("users").once('value', function (snap) {
+        snap.forEach(function (child) {
             let childInfo = child.val();
             usersList.push(childInfo.username);
         })
     });
     getUsers = document.getElementById("allUsers");
-    for( let i =0; i<usersList.length; i++){
+    for (let i = 0; i < usersList.length; i++) {
         let singleUserNode = document.createElement("li");
         let singleUserNodeContent = document.createElement("a");
         singleUserNodeContent.textContent = usersList[i];
-        singleUserNodeContent.href = ("profile/"+await getUidByUsername(usersList[i]));
+        singleUserNodeContent.href = ("profile/" + await getUidByUsername(usersList[i]));
         singleUserNode.appendChild(singleUserNodeContent);
         getUsers.append(singleUserNode);
     }
 }
 
-async function findUser(){
+async function findUser() {
     let username = document.getElementById("findUser").value;
     let uid = await getUidByUsername(username);
     let userInfo = document.getElementById("userInfo");
@@ -106,35 +106,34 @@ async function findUser(){
     userInfo.append(node);
 }
 
-async function getUsernameByUid(uid){
+async function getUsernameByUid(uid) {
     let username;
-    await database.ref("users/" + uid).once('value' , function(child){
+    await database.ref("users/" + uid).once('value', function (child) {
         let childInfo = child.val();
         username = childInfo.username;
     });
     return username;
 }
 
-async function getUidByUsername(username)
-{
-    let email,name,uid;
-    await firebase.database().ref("users").once('value', function(snap){
-        snap.forEach(function(child){
+async function getUidByUsername(username) {
+    let email, name, uid;
+    await firebase.database().ref("users").once('value', function (snap) {
+        snap.forEach(function (child) {
             let childInfo = child.val();
-            if(childInfo.username == username){
+            if (childInfo.username == username) {
                 email = childInfo.email;
                 name = childInfo.name;
                 uid = child.key;
             }
         })
-     });
+    });
     console.log(uid);
     return uid;
 }
 
-async function editProfile(name,image,username,uid){
+async function editProfile(name, image, username, uid) {
     console.log("save working.............")
     console.log(image);
-    await database.ref("users/" + uid ).update({"name": name});
-    await uploadImage(image,username,uid);
+    await database.ref("users/" + uid).update({ "name": name });
+    await uploadImage(image, username, uid);
 }
